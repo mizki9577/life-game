@@ -1,5 +1,6 @@
 #define BOOST_TEST_MAIN
 #include <boost/test/included/unit_test.hpp>
+#include "matrix_type.hpp"
 
 BOOST_AUTO_TEST_CASE(matrix_type_dynamic_allocate)
 {
@@ -17,8 +18,8 @@ BOOST_AUTO_TEST_CASE(matrix_type_dynamic_allocate)
 
     // 未確保領域を true にセットしたときは確保する
     matrix.set(10, 10, true);
-    BOOST_CHECK_EQUAL(matrix.width(), 10);
-    BOOST_CHECK_EQUAL(matrix.height(), 10);
+    BOOST_CHECK_EQUAL(matrix.width(), 11);
+    BOOST_CHECK_EQUAL(matrix.height(), 11);
 }
 
 BOOST_AUTO_TEST_CASE(matrix_type_negative_coordinate)
@@ -51,9 +52,9 @@ BOOST_AUTO_TEST_CASE(matrix_type_clear)
     for (int y = -50; y < 50; ++y) for (int x = -50; x < 50; ++x) {
         matrix.set(x, y, true);
     }
-    matrix_type.clear();
-    BOOST_CHECK_EQUAL(matrix_type.width(), 0);
-    BOOST_CHECK_EQUAL(matrix_type.height(), 0);
+    matrix.clear();
+    BOOST_CHECK_EQUAL(matrix.width(), 0);
+    BOOST_CHECK_EQUAL(matrix.height(), 0);
 }
 
 // vim: set ts=4 sw=4 et:
