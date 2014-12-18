@@ -1,6 +1,6 @@
 #define BOOST_TEST_MAIN
 #include <boost/test/included/unit_test.hpp>
-#include "matrix_type.hpp"
+#include "life_game.hpp"
 
 BOOST_AUTO_TEST_CASE(matrix_type_dynamic_allocate)
 {
