@@ -20,3 +20,5 @@ HEADERS  += mainwindow.hpp
 FORMS    += mainwindow.ui
 
 QMAKE_CXXFLAGS += -std=c++1z
+
+RESOURCES +=
