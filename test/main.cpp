@@ -57,6 +57,18 @@ BOOST_AUTO_TEST_CASE(matrix_type_clear)
     BOOST_CHECK_EQUAL(matrix.height(), 0);
 }
 
+BOOST_AUTO_TEST_CASE(matrix_type_coordinate_max_and_min)
+{
+    matrix_type matrix;
+
+    matrix.set(-10, 5, true);
+    matrix.set(10, -5, true);
+    BOOST_CHECK_EQUAL(matrix.top(), -5);
+    BOOST_CHECK_EQUAL(matrix.right(), 11);
+    BOOST_CHECK_EQUAL(matrix.bottom(), 6);
+    BOOST_CHECK_EQUAL(matrix.left(), -10);
+}
+
 BOOST_AUTO_TEST_CASE(life_game_rpentomino)
 {
     life_game game;
