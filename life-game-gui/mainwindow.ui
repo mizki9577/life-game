@@ -103,20 +103,10 @@
          <number>1</number>
         </property>
         <property name="maximum">
-         <number>100</number>
+         <number>10</number>
         </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QSlider" name="cellSizeSlider">
-        <property name="minimum">
-         <number>1</number>
-        </property>
-        <property name="maximum">
-         <number>100</number>
-        </property>
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
+        <property name="value">
+         <number>2</number>
         </property>
        </widget>
       </item>
@@ -141,38 +131,6 @@
  <layoutdefault spacing="6" margin="11"/>
  <resources/>
  <connections>
-  <connection>
-   <sender>cellSizeSlider</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>cellSizeSpinBox</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>590</x>
-     <y>22</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>523</x>
-     <y>22</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>cellSizeSpinBox</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>cellSizeSlider</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>523</x>
-     <y>22</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>590</x>
-     <y>22</y>
-    </hint>
-   </hints>
-  </connection>
   <connection>
    <sender>inetrvalSlider</sender>
    <signal>valueChanged(int)</signal>
