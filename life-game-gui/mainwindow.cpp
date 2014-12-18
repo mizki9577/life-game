@@ -6,9 +6,14 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    timer = new QTimer();
+    timer = new QTimer(this);
     timer->setInterval(ui->intervalSpinBox->value());
     connect(timer, SIGNAL(timeout()), this, SLOT(updateMatrixArea()));
+    game.matrix.set(0, 1, true);
+    game.matrix.set(1, 0, true);
+    game.matrix.set(1, 1, true);
+    game.matrix.set(1, 2, true);
+    game.matrix.set(2, 0, true);
 }
 
 MainWindow::~MainWindow()
@@ -41,12 +46,30 @@ void MainWindow::on_intervalSpinBox_valueChanged(int arg1)
 
 void MainWindow::on_cellSizeSpinBox_valueChanged(int arg1)
 {
-    // TODO: redraw matrix
+    updateMatrixArea();
 }
 
 void MainWindow::updateMatrixArea()
 {
-    // TODO: draw matrix
+    auto&& cell_size = ui->cellSizeSpinBox->value();
+    auto width = cell_size * (game.matrix.width() + 2);
+    auto height = cell_size * (game.matrix.height() + 2);
+    QPixmap pixmap(width, height);
+    QPainter painter(&pixmap);
+
+    painter.fillRect(pixmap.rect(), Qt::GlobalColor::red);
+
+    game.next();
+    for (int y = game.matrix.top(); y < game.matrix.bottom(); ++y) {
+        for (int x = game.matrix.left(); x < game.matrix.right(); ++x) {
+            if (game.matrix.get(x, y)) {
+                painter.fillRect((x - game.matrix.left()) * cell_size, (y - game.matrix.top()) * cell_size, cell_size, cell_size, Qt::GlobalColor::black);
+            } else {
+                painter.fillRect((x - game.matrix.left()) * cell_size, (y - game.matrix.top()) * cell_size, cell_size, cell_size, Qt::GlobalColor::white);
+            }
+        }
+    }
+    ui->matrixArea->setPixmap(std::move(pixmap));
 }
 
 // vim: set ts=4 sw=4 et:

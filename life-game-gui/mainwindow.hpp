@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 #include <QTimer>
+#include <QPixmap>
+#include <QPainter>
 #include "life_game.hpp"
 
 namespace Ui {
