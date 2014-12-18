@@ -84,12 +84,32 @@ void matrix_type::clear() noexcept
 
 std::size_t matrix_type::width() const noexcept
 {
-    return quadrant_1.front().size() + quadrant_2.front().size() - 2;
+    return std::max(quadrant_1.front().size(), quadrant_4.front().size()) + std::max(quadrant_2.front().size(), quadrant_3.front().size()) - 2;
 }
 
 std::size_t matrix_type::height() const noexcept
 {
-    return quadrant_1.size() + quadrant_4.size() - 2;
+    return std::max(quadrant_1.size(), quadrant_2.size()) + std::max(quadrant_3.size(), quadrant_4.size()) - 2;
+}
+
+int matrix_type::top() const noexcept
+{
+    return -std::max(quadrant_3.size(), quadrant_4.size());
+}
+
+int matrix_type::bottom() const noexcept
+{
+    return std::max(quadrant_1.size(), quadrant_2.size());
+}
+
+int matrix_type::left() const noexcept
+{
+    return -std::max(quadrant_2.front().size(), quadrant_3.front().size());
+}
+
+int matrix_type::right() const noexcept
+{
+    return std::max(quadrant_1.front().size(), quadrant_4.front().size());
 }
 
 // vim: set ts=4 sw=4 et:

@@ -17,6 +17,10 @@ class matrix_type
 
         std::size_t width() const noexcept;
         std::size_t height() const noexcept;
+        int top() const noexcept;
+        int bottom() const noexcept;
+        int left() const noexcept;
+        int right() const noexcept;
 
     private:
         using quadrant_type = std::vector<std::vector<bool>>;
