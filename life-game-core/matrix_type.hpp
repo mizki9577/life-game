@@ -4,6 +4,7 @@
 #include <functional>
 #include <tuple>
 #include <vector>
+#include <boost/dynamic_bitset.hpp>
 
 class matrix_type
 {
@@ -23,7 +24,7 @@ class matrix_type
         int right() const noexcept;
 
     private:
-        using quadrant_type = std::vector<std::vector<bool>>;
+        using quadrant_type = std::vector<boost::dynamic_bitset<>>;
 
         std::tuple<quadrant_type const&, std::size_t, std::size_t> convert_coordinate(int const& x, int const& y) const noexcept;
 

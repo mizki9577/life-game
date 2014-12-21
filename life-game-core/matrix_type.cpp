@@ -2,10 +2,12 @@
 
 matrix_type::matrix_type()
 {
-    quadrant_1 = { { false } };
-    quadrant_2 = { { false } };
-    quadrant_3 = { { false } };
-    quadrant_4 = { { false } };
+    boost::dynamic_bitset<> unit(1);
+    unit[0] = false;
+    quadrant_1 = { unit };
+    quadrant_2 = { unit };
+    quadrant_3 = { unit };
+    quadrant_4 = { unit };
 }
 
 std::tuple<matrix_type::quadrant_type const&, std::size_t, std::size_t> matrix_type::convert_coordinate(int const& x, int const& y) const noexcept
@@ -43,9 +45,9 @@ bool matrix_type::get(int const& x, int const& y) const noexcept
     auto const& x2 = std::get<1>(params);
     auto const& y2 = std::get<2>(params);
 
-    try {
-        return quadrant.at(y2).at(x2);
-    } catch (std::out_of_range e) {
+    if (quadrant.front().size() > x2 && quadrant.size() > y2) {
+        return quadrant.at(y2)[x2];
+    } else {
         return false;
     }
 }
@@ -59,27 +61,27 @@ void matrix_type::set(int const& x, int const& y, bool const& value)
 
     if (value == true) {
         if (y2 >= quadrant.size() - 1) {
-            for (std::size_t i = 0, size = quadrant.size(); i < y2 - size + 2; ++i) {
-                quadrant.emplace_back(quadrant.front().size(), false);
-            }
+            quadrant.resize(y2 + 2, boost::dynamic_bitset<>(quadrant.front().size()));
         }
         if (x2 >= quadrant.front().size() - 1) {
             for (auto&& row : quadrant) {
                 row.resize(x2 + 2, false);
             }
         }
-        quadrant.at(y2).at(x2) = value;
+        quadrant.at(y2)[x2] = value;
     } else if (x2 < quadrant.front().size() - 1 && y2 < quadrant.size() - 1) {
-        quadrant.at(y2).at(x2) = value;
+        quadrant.at(y2)[x2] = value;
     }
 }
 
 void matrix_type::clear() noexcept
 {
-    quadrant_1 = { { false } };
-    quadrant_2 = { { false } };
-    quadrant_3 = { { false } };
-    quadrant_4 = { { false } };
+    boost::dynamic_bitset<> unit(1);
+    unit[0] = false;
+    quadrant_1 = { unit };
+    quadrant_2 = { unit };
+    quadrant_3 = { unit };
+    quadrant_4 = { unit };
 }
 
 std::size_t matrix_type::width() const noexcept
