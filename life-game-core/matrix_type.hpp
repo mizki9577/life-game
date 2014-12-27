@@ -4,6 +4,7 @@
 #include <functional>
 #include <tuple>
 #include <vector>
+#include <array>
 #include <boost/dynamic_bitset.hpp>
 
 class matrix_type
@@ -28,10 +29,7 @@ class matrix_type
 
         std::tuple<quadrant_type const&, std::size_t, std::size_t> convert_coordinate(int const& x, int const& y) const noexcept;
 
-        quadrant_type quadrant_1;
-        quadrant_type quadrant_2;
-        quadrant_type quadrant_3;
-        quadrant_type quadrant_4;
+        std::array<quadrant_type, 4> quadrants;
 };
 
 #endif // MATRIX_TYPE_HPP

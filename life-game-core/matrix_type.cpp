@@ -4,38 +4,36 @@ matrix_type::matrix_type()
 {
     boost::dynamic_bitset<> unit(1);
     unit[0] = false;
-    quadrant_1 = { unit };
-    quadrant_2 = { unit };
-    quadrant_3 = { unit };
-    quadrant_4 = { unit };
+    for (auto&& quadrant : quadrants) {
+        quadrant = { unit };
+    }
 }
 
 std::tuple<matrix_type::quadrant_type const&, std::size_t, std::size_t> matrix_type::convert_coordinate(int const& x, int const& y) const noexcept
 {
-    quadrant_type const* quadrant;
-    std::size_t x2, y2;
+    std::size_t qidx, x2, y2;
 
     if (x >= 0) {
         x2 = x;
         if (y >= 0) {
-            quadrant = &quadrant_1;
+            qidx = 1;
             y2 = y;
         } else {
-            quadrant = &quadrant_4;
+            qidx = 4;
             y2 = -y - 1;
         }
     } else {
         x2 = -x - 1;
         if (y >= 0) {
-            quadrant = &quadrant_2;
+            qidx = 2;
             y2 = y;
         } else {
-            quadrant = &quadrant_3;
+            qidx = 3;
             y2 = -y - 1;
         }
     }
 
-    return std::make_tuple(std::ref(*quadrant), x2, y2);
+    return std::make_tuple(std::ref(quadrants[qidx]), x2, y2);
 }
 
 bool matrix_type::get(int const& x, int const& y) const noexcept
@@ -78,40 +76,39 @@ void matrix_type::clear() noexcept
 {
     boost::dynamic_bitset<> unit(1);
     unit[0] = false;
-    quadrant_1 = { unit };
-    quadrant_2 = { unit };
-    quadrant_3 = { unit };
-    quadrant_4 = { unit };
+    for (auto&& quadrant : quadrants) {
+        quadrant = { unit };
+    }
 }
 
 std::size_t matrix_type::width() const noexcept
 {
-    return std::max(quadrant_1.front().size(), quadrant_4.front().size()) + std::max(quadrant_2.front().size(), quadrant_3.front().size()) - 2;
+    return std::max(quadrants[1].front().size(), quadrants[4].front().size()) + std::max(quadrants[2].front().size(), quadrants[3].front().size()) - 2;
 }
 
 std::size_t matrix_type::height() const noexcept
 {
-    return std::max(quadrant_1.size(), quadrant_2.size()) + std::max(quadrant_3.size(), quadrant_4.size()) - 2;
+    return std::max(quadrants[1].size(), quadrants[2].size()) + std::max(quadrants[3].size(), quadrants[4].size()) - 2;
 }
 
 int matrix_type::top() const noexcept
 {
-    return -std::max(quadrant_3.size(), quadrant_4.size());
+    return -std::max(quadrants[3].size(), quadrants[4].size());
 }
 
 int matrix_type::bottom() const noexcept
 {
-    return std::max(quadrant_1.size(), quadrant_2.size());
+    return std::max(quadrants[1].size(), quadrants[2].size());
 }
 
 int matrix_type::left() const noexcept
 {
-    return -std::max(quadrant_2.front().size(), quadrant_3.front().size());
+    return -std::max(quadrants[2].front().size(), quadrants[3].front().size());
 }
 
 int matrix_type::right() const noexcept
 {
-    return std::max(quadrant_1.front().size(), quadrant_4.front().size());
+    return std::max(quadrants[1].front().size(), quadrants[4].front().size());
 }
 
 // vim: set ts=4 sw=4 et:
