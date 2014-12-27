@@ -52,7 +52,7 @@ void MainWindow::on_intervalSpinBox_valueChanged(int arg1)
 
 void MainWindow::on_cellSizeSpinBox_valueChanged(int)
 {
-    updateMatrixArea();
+    drawMatrixArea();
 }
 
 void MainWindow::updateMatrixArea()
@@ -64,13 +64,45 @@ void MainWindow::updateMatrixArea()
 void MainWindow::drawMatrixArea()
 {
     auto&& cell_size = ui->cellSizeSpinBox->value();
-    auto width = cell_size * (game.matrix.width() + 2);
-    auto height = cell_size * (game.matrix.height() + 2);
-    QPixmap pixmap(width, height);
-    QPainter painter(&pixmap);
+    QPainter painter;
 
-    for (int y = game.matrix.top(); y < game.matrix.bottom(); ++y) {
-        for (int x = game.matrix.left(); x < game.matrix.right(); ++x) {
+    auto&& lwidth = -game.matrix.left();
+    auto&& rwidth = game.matrix.right() - 1;
+    auto&& theight = -game.matrix.top();
+    auto&& bheight = game.matrix.bottom() - 1;
+
+    QPixmap pixmap1(rwidth * cell_size, bheight * cell_size);
+    QPixmap pixmap2(lwidth * cell_size, bheight * cell_size);
+    QPixmap pixmap3(lwidth * cell_size, theight * cell_size);
+    QPixmap pixmap4(rwidth * cell_size, theight * cell_size);
+
+    painter.begin(&pixmap1);
+    for (int y = 0; y < game.matrix.bottom() - 1; ++y) {
+        for (int x = 0; x < game.matrix.right() - 1; ++x) {
+            if (game.matrix.get(x, y)) {
+                painter.fillRect(x * cell_size, y * cell_size, cell_size, cell_size, Qt::GlobalColor::black);
+            } else {
+                painter.fillRect(x * cell_size, y * cell_size, cell_size, cell_size, Qt::GlobalColor::white);
+            }
+        }
+    }
+    painter.end();
+
+    painter.begin(&pixmap2);
+    for (int y = 0; y < game.matrix.bottom() - 1; ++y) {
+        for (int x = game.matrix.left(); x < 0; ++x) {
+            if (game.matrix.get(x, y)) {
+                painter.fillRect((x - game.matrix.left()) * cell_size, y * cell_size, cell_size, cell_size, Qt::GlobalColor::black);
+            } else {
+                painter.fillRect((x - game.matrix.left()) * cell_size, y * cell_size, cell_size, cell_size, Qt::GlobalColor::white);
+            }
+        }
+    }
+    painter.end();
+
+    painter.begin(&pixmap3);
+    for (int y = game.matrix.top(); y < 0; ++y) {
+        for (int x = game.matrix.left(); x < 0; ++x) {
             if (game.matrix.get(x, y)) {
                 painter.fillRect((x - game.matrix.left()) * cell_size, (y - game.matrix.top()) * cell_size, cell_size, cell_size, Qt::GlobalColor::black);
             } else {
@@ -78,7 +110,24 @@ void MainWindow::drawMatrixArea()
             }
         }
     }
-    ui->matrixArea->setPixmap(std::move(pixmap));
+    painter.end();
+
+    painter.begin(&pixmap4);
+    for (int y = game.matrix.top(); y < 0; ++y) {
+        for (int x = 0; x < game.matrix.right() - 1; ++x) {
+            if (game.matrix.get(x, y)) {
+                painter.fillRect(x * cell_size, (y - game.matrix.top()) * cell_size, cell_size, cell_size, Qt::GlobalColor::black);
+            } else {
+                painter.fillRect(x * cell_size, (y - game.matrix.top()) * cell_size, cell_size, cell_size, Qt::GlobalColor::white);
+            }
+        }
+    }
+    painter.end();
+
+    ui->matrixArea1->setPixmap(std::move(pixmap1));
+    ui->matrixArea2->setPixmap(std::move(pixmap2));
+    ui->matrixArea3->setPixmap(std::move(pixmap3));
+    ui->matrixArea4->setPixmap(std::move(pixmap4));
 }
 
 // vim: set ts=4 sw=4 et:

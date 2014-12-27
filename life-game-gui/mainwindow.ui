@@ -115,13 +115,8 @@
        <bool>true</bool>
       </property>
       <widget class="QWidget" name="scrollAreaWidgetContents">
-       <property name="geometry">
-        <rect>
-         <x>0</x>
-         <y>0</y>
-         <width>620</width>
-         <height>426</height>
-        </rect>
+       <property name="styleSheet">
+        <string notr="true">background-color: white;</string>
        </property>
        <layout class="QGridLayout" name="gridLayout">
         <property name="leftMargin">
