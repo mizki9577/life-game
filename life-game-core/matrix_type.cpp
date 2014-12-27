@@ -16,19 +16,19 @@ std::tuple<matrix_type::quadrant_type const&, std::size_t, std::size_t> matrix_t
     if (x >= 0) {
         x2 = x;
         if (y >= 0) {
-            qidx = 1;
+            qidx = 0;
             y2 = y;
         } else {
-            qidx = 4;
+            qidx = 3;
             y2 = -y - 1;
         }
     } else {
         x2 = -x - 1;
         if (y >= 0) {
-            qidx = 2;
+            qidx = 1;
             y2 = y;
         } else {
-            qidx = 3;
+            qidx = 2;
             y2 = -y - 1;
         }
     }
@@ -83,32 +83,32 @@ void matrix_type::clear() noexcept
 
 std::size_t matrix_type::width() const noexcept
 {
-    return std::max(quadrants[1].front().size(), quadrants[4].front().size()) + std::max(quadrants[2].front().size(), quadrants[3].front().size()) - 2;
+    return std::max(quadrants[0].front().size(), quadrants[3].front().size()) + std::max(quadrants[1].front().size(), quadrants[2].front().size()) - 2;
 }
 
 std::size_t matrix_type::height() const noexcept
 {
-    return std::max(quadrants[1].size(), quadrants[2].size()) + std::max(quadrants[3].size(), quadrants[4].size()) - 2;
+    return std::max(quadrants[0].size(), quadrants[1].size()) + std::max(quadrants[2].size(), quadrants[3].size()) - 2;
 }
 
 int matrix_type::top() const noexcept
 {
-    return -std::max(quadrants[3].size(), quadrants[4].size());
+    return -std::max(quadrants[2].size(), quadrants[3].size());
 }
 
 int matrix_type::bottom() const noexcept
 {
-    return std::max(quadrants[1].size(), quadrants[2].size());
+    return std::max(quadrants[0].size(), quadrants[1].size());
 }
 
 int matrix_type::left() const noexcept
 {
-    return -std::max(quadrants[2].front().size(), quadrants[3].front().size());
+    return -std::max(quadrants[1].front().size(), quadrants[2].front().size());
 }
 
 int matrix_type::right() const noexcept
 {
-    return std::max(quadrants[1].front().size(), quadrants[4].front().size());
+    return std::max(quadrants[0].front().size(), quadrants[3].front().size());
 }
 
 // vim: set ts=4 sw=4 et:
