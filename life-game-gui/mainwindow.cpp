@@ -21,6 +21,11 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::showEvent(QShowEvent *)
+{
+    drawMatrixArea();
+}
+
 void MainWindow::on_runButton_toggled(bool checked)
 {
     if (checked) {
@@ -51,15 +56,18 @@ void MainWindow::on_cellSizeSpinBox_valueChanged(int arg1)
 
 void MainWindow::updateMatrixArea()
 {
+    game.next();
+    drawMatrixArea();
+}
+
+void MainWindow::drawMatrixArea()
+{
     auto&& cell_size = ui->cellSizeSpinBox->value();
     auto width = cell_size * (game.matrix.width() + 2);
     auto height = cell_size * (game.matrix.height() + 2);
     QPixmap pixmap(width, height);
     QPainter painter(&pixmap);
 
-    painter.fillRect(pixmap.rect(), Qt::GlobalColor::red);
-
-    game.next();
     for (int y = game.matrix.top(); y < game.matrix.bottom(); ++y) {
         for (int x = game.matrix.left(); x < game.matrix.right(); ++x) {
             if (game.matrix.get(x, y)) {

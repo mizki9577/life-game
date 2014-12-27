@@ -25,8 +25,11 @@ class MainWindow : public QMainWindow
         void on_intervalSpinBox_valueChanged(int arg1);
         void on_cellSizeSpinBox_valueChanged(int arg1);
         void updateMatrixArea();
+        void drawMatrixArea();
 
     private:
+        void showEvent(QShowEvent *);
+
         Ui::MainWindow *ui;
         QTimer *timer;
         life_game game;
