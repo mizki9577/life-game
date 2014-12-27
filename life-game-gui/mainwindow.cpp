@@ -49,7 +49,7 @@ void MainWindow::on_intervalSpinBox_valueChanged(int arg1)
     timer->setInterval(arg1);
 }
 
-void MainWindow::on_cellSizeSpinBox_valueChanged(int arg1)
+void MainWindow::on_cellSizeSpinBox_valueChanged(int)
 {
     updateMatrixArea();
 }

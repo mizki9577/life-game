@@ -23,7 +23,7 @@ class MainWindow : public QMainWindow
         void on_runButton_toggled(bool checked);
         void on_resetButton_clicked();
         void on_intervalSpinBox_valueChanged(int arg1);
-        void on_cellSizeSpinBox_valueChanged(int arg1);
+        void on_cellSizeSpinBox_valueChanged(int);
         void updateMatrixArea();
         void drawMatrixArea();
 
