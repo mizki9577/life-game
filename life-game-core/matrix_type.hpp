@@ -10,6 +10,8 @@
 class matrix_type
 {
     public:
+        using quadrant_type = std::vector<boost::dynamic_bitset<>>;
+
         matrix_type();
         ~matrix_type() = default;
 
@@ -24,12 +26,10 @@ class matrix_type
         int left() const noexcept;
         int right() const noexcept;
 
-    private:
-        using quadrant_type = std::vector<boost::dynamic_bitset<>>;
-
-        std::tuple<quadrant_type const&, std::size_t, std::size_t> convert_coordinate(int const& x, int const& y) const noexcept;
-
         std::array<quadrant_type, 4> quadrants;
+
+    private:
+        std::tuple<quadrant_type const&, std::size_t, std::size_t> convert_coordinate(int const& x, int const& y) const noexcept;
 };
 
 #endif // MATRIX_TYPE_HPP
