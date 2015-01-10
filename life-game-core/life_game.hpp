@@ -1,9 +1,11 @@
 #ifndef LIFE_GAME_HPP
 #define LIFE_GAME_HPP
 
+#include "life-game-core_global.hpp"
 #include "matrix_type.hpp"
 
-class life_game : matrix_type {
+class LIFEGAMECORESHARED_EXPORT life_game : matrix_type
+{
     public:
         life_game() = default;
         ~life_game() = default;

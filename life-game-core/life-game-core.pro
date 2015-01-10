@@ -1,17 +1,26 @@
-TEMPLATE = app
-CONFIG += console
-CONFIG -= app_bundle
-CONFIG -= qt
+#-------------------------------------------------
+#
+# Project created by QtCreator 2015-01-10T23:13:06
+#
+#-------------------------------------------------
 
-SOURCES += main.cpp \
-    matrix_type.cpp \
-    life_game.cpp
+QT       -= core gui
 
-include(deployment.pri)
-qtcAddDeployment()
+TARGET = life-game-core
+TEMPLATE = lib
+
+DEFINES += LIFEGAMECORE_LIBRARY
+
+SOURCES += life_game.cpp \
+    matrix_type.cpp
+
+HEADERS += life_game.hpp\
+        life-game-core_global.hpp \
+    matrix_type.hpp
+
+unix {
+    target.path = /usr/lib
+    INSTALLS += target
+}
 
 QMAKE_CXXFLAGS += -std=c++1z
-
-HEADERS += \
-    matrix_type.hpp \
-    life_game.hpp
