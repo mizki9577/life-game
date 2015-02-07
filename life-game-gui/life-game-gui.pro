@@ -20,9 +20,9 @@ FORMS    += mainwindow.ui
 
 QMAKE_CXXFLAGS += -std=c++1z
 
-win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../life-game-core2/release/ -llife-game-core2
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../life-game-core2/debug/ -llife-game-core2
-else:unix: LIBS += -L$$OUT_PWD/../life-game-core2/ -llife-game-core2
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../life-game-core/release/ -llife-game-core
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../life-game-core/debug/ -llife-game-core
+else:unix: LIBS += -L$$OUT_PWD/../life-game-core/ -llife-game-core
 
-INCLUDEPATH += $$PWD/../life-game-core2
-DEPENDPATH += $$PWD/../life-game-core2
+INCLUDEPATH += $$PWD/../life-game-core
+DEPENDPATH += $$PWD/../life-game-core
