@@ -1,5 +1,6 @@
 TEMPLATE = subdirs
 
-SUBDIRS += life-game-core \
-    life-game-gui \
-    test
+SUBDIRS += \
+    life-game-core \
+    test \
+    life-game-gui
