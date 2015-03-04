@@ -41,7 +41,7 @@ bool matrix_type::get(int const& x, int const& y) const noexcept
     auto const& y2 = std::get<2>(params);
 
     if (quadrant.front().size() > x2 && quadrant.size() > y2) {
-        return quadrant.at(y2)[x2];
+        return quadrant[y2][x2];
     } else {
         return false;
     }
@@ -63,9 +63,9 @@ void matrix_type::set(int const& x, int const& y, bool const& value)
                 row.resize(x2 + 2, false);
             }
         }
-        quadrant.at(y2)[x2] = value;
+        quadrant[y2][x2] = value;
     } else if (x2 < quadrant.front().size() - 1 && y2 < quadrant.size() - 1) {
-        quadrant.at(y2)[x2] = value;
+        quadrant[y2][x2] = value;
     }
 }
 
