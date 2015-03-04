@@ -4,15 +4,13 @@
 #include "life-game-core_global.hpp"
 #include "matrix_type.hpp"
 
-class LIFEGAMECORESHARED_EXPORT life_game : matrix_type
+class LIFEGAMECORESHARED_EXPORT life_game : public matrix_type
 {
     public:
         life_game() = default;
         ~life_game() = default;
 
         void next() noexcept;
-
-        matrix_type matrix;
 
     private:
         std::size_t count_around(int const& x, int const& y);

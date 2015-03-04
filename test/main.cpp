@@ -72,26 +72,26 @@ BOOST_AUTO_TEST_CASE(matrix_type_coordinate_max_and_min)
 BOOST_AUTO_TEST_CASE(life_game_rpentomino)
 {
     life_game game;
-    game.matrix.set(0, 1, true);
-    game.matrix.set(1, 0, true);
-    game.matrix.set(1, 1, true);
-    game.matrix.set(1, 2, true);
-    game.matrix.set(2, 0, true);
+    game.set(0, 1, true);
+    game.set(1, 0, true);
+    game.set(1, 1, true);
+    game.set(1, 2, true);
+    game.set(2, 0, true);
     game.next();
-    BOOST_CHECK_EQUAL(game.matrix.get(0, 0), true);
-    BOOST_CHECK_EQUAL(game.matrix.get(0, 1), true);
-    BOOST_CHECK_EQUAL(game.matrix.get(0, 2), true);
-    BOOST_CHECK_EQUAL(game.matrix.get(1, 0), true);
-    BOOST_CHECK_EQUAL(game.matrix.get(1, 2), true);
-    BOOST_CHECK_EQUAL(game.matrix.get(2, 0), true);
+    BOOST_CHECK_EQUAL(game.get(0, 0), true);
+    BOOST_CHECK_EQUAL(game.get(0, 1), true);
+    BOOST_CHECK_EQUAL(game.get(0, 2), true);
+    BOOST_CHECK_EQUAL(game.get(1, 0), true);
+    BOOST_CHECK_EQUAL(game.get(1, 2), true);
+    BOOST_CHECK_EQUAL(game.get(2, 0), true);
     game.next();
-    BOOST_CHECK_EQUAL(game.matrix.get(-1, 1), true);
-    BOOST_CHECK_EQUAL(game.matrix.get(0, 0), true);
-    BOOST_CHECK_EQUAL(game.matrix.get(0, 2), true);
-    BOOST_CHECK_EQUAL(game.matrix.get(1, -1), true);
-    BOOST_CHECK_EQUAL(game.matrix.get(1, 0), true);
-    BOOST_CHECK_EQUAL(game.matrix.get(1, 2), true);
-    BOOST_CHECK_EQUAL(game.matrix.get(2, 1), true);
+    BOOST_CHECK_EQUAL(game.get(-1, 1), true);
+    BOOST_CHECK_EQUAL(game.get(0, 0), true);
+    BOOST_CHECK_EQUAL(game.get(0, 2), true);
+    BOOST_CHECK_EQUAL(game.get(1, -1), true);
+    BOOST_CHECK_EQUAL(game.get(1, 0), true);
+    BOOST_CHECK_EQUAL(game.get(1, 2), true);
+    BOOST_CHECK_EQUAL(game.get(2, 1), true);
 }
 
 // vim: set ts=4 sw=4 et:

@@ -2,11 +2,11 @@
 
 void life_game::next() noexcept
 {
-    auto next_matrix = matrix;
-    for (int y = matrix.top(); y < matrix.bottom(); ++y) {
-        for (int x = matrix.left(); x < matrix.right(); ++x) {
+    auto next_matrix = *this;
+    for (int y = top(); y < bottom(); ++y) {
+        for (int x = left(); x < right(); ++x) {
             auto alives = count_around(x, y);
-            if (matrix.get(x, y) == true) {
+            if (get(x, y) == true) {
                 if (alives != 2 && alives != 3) {
                     next_matrix.set(x, y, false);
                 }
@@ -17,20 +17,20 @@ void life_game::next() noexcept
             }
         }
     }
-    matrix = std::move(next_matrix);
+    *this = std::move(next_matrix);
 }
 
 std::size_t life_game::count_around(int const& x, int const& y)
 {
     std::size_t result = 0;
-    if (matrix.get(x - 1, y - 1)) ++result;
-    if (matrix.get(x - 1, y    )) ++result;
-    if (matrix.get(x - 1, y + 1)) ++result;
-    if (matrix.get(x    , y - 1)) ++result;
-    if (matrix.get(x    , y + 1)) ++result;
-    if (matrix.get(x + 1, y - 1)) ++result;
-    if (matrix.get(x + 1, y    )) ++result;
-    if (matrix.get(x + 1, y + 1)) ++result;
+    if (get(x - 1, y - 1)) ++result;
+    if (get(x - 1, y    )) ++result;
+    if (get(x - 1, y + 1)) ++result;
+    if (get(x    , y - 1)) ++result;
+    if (get(x    , y + 1)) ++result;
+    if (get(x + 1, y - 1)) ++result;
+    if (get(x + 1, y    )) ++result;
+    if (get(x + 1, y + 1)) ++result;
     return result;
 }
 
