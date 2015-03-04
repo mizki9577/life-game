@@ -7,30 +7,30 @@ matrix_type::matrix_type()
 
 std::tuple<matrix_type::quadrant_type const&, std::size_t, std::size_t> matrix_type::convert_coordinate(int const& x, int const& y) const noexcept
 {
-    auto quadrant = std::ref(quadrant_br);
+    quadrant_type const* quadrant;
     std::size_t x2, y2;
 
     if (x >= 0) {
         x2 = x;
         if (y >= 0) {
-            quadrant = std::ref(quadrant_br);
+            quadrant = &quadrant_br;
             y2 = y;
         } else {
-            quadrant = std::ref(quadrant_ur);
+            quadrant = &quadrant_ur;
             y2 = -y - 1;
         }
     } else {
         x2 = -x - 1;
         if (y >= 0) {
-            quadrant = std::ref(quadrant_bl);
+            quadrant = &quadrant_bl;
             y2 = y;
         } else {
-            quadrant = std::ref(quadrant_ul);
+            quadrant = &quadrant_ul;
             y2 = -y - 1;
         }
     }
 
-    return std::make_tuple(quadrant, x2, y2);
+    return std::make_tuple(*quadrant, x2, y2);
 }
 
 bool matrix_type::get(int const& x, int const& y) const noexcept
