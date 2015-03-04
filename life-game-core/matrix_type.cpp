@@ -2,11 +2,7 @@
 
 matrix_type::matrix_type()
 {
-    boost::dynamic_bitset<> unit(1, 0);
-    quadrant_br = { unit };
-    quadrant_bl = { unit };
-    quadrant_ul = { unit };
-    quadrant_ur = { unit };
+    clear();
 }
 
 std::tuple<matrix_type::quadrant_type const&, std::size_t, std::size_t> matrix_type::convert_coordinate(int const& x, int const& y) const noexcept
