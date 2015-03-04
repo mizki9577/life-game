@@ -7,29 +7,30 @@ matrix_type::matrix_type()
 
 matrix_type::coordinate_type matrix_type::convert_coordinate(int const& x, int const& y) noexcept
 {
-    coordinate_type result{quadrant_br, 0, 0};
+    auto quadrant = std::ref(quadrant_br);
+    std::size_t nx, ny;
 
     if (x >= 0) {
-        result.x = x;
+        nx = x;
         if (y >= 0) {
-            result.quadrant = quadrant_br;
-            result.y = y;
+            quadrant = std::ref(quadrant_br);
+            ny = y;
         } else {
-            result.quadrant = quadrant_ur;
-            result.y = -y - 1;
+            quadrant = std::ref(quadrant_ur);
+            ny = -y - 1;
         }
     } else {
-        result.x = -x - 1;
+        nx = -x - 1;
         if (y >= 0) {
-            result.quadrant = quadrant_bl;
-            result.y = y;
+            quadrant = std::ref(quadrant_bl);
+            ny = y;
         } else {
-            result.quadrant = quadrant_ul;
-            result.y = -y - 1;
+            quadrant = std::ref(quadrant_ul);
+            ny = -y - 1;
         }
     }
 
-    return result;
+    return coordinate_type{quadrant, nx, ny};
 }
 
 bool matrix_type::get(int const& x, int const& y) noexcept
