@@ -15,7 +15,7 @@ class LIFEGAMECORESHARED_EXPORT life_game : matrix_type
         matrix_type matrix;
 
     private:
-        std::size_t count_around(int const& x, int const& y) const;
+        std::size_t count_around(int const& x, int const& y);
 };
 
 #endif // LIFE_GAME_HPP

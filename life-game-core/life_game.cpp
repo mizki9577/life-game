@@ -20,7 +20,7 @@ void life_game::next() noexcept
     matrix = std::move(next_matrix);
 }
 
-std::size_t life_game::count_around(int const& x, int const& y) const
+std::size_t life_game::count_around(int const& x, int const& y)
 {
     std::size_t result = 0;
     if (matrix.get(x - 1, y - 1)) ++result;

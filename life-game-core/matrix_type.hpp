@@ -11,12 +11,24 @@ class matrix_type
 {
     public:
         using quadrant_type = std::vector<boost::dynamic_bitset<>>;
+        using reference_type = boost::dynamic_bitset<>::reference;
+
+        class coordinate_type
+        {
+            public:
+                coordinate_type() = default;
+                ~coordinate_type() = default;
+
+                quadrant_type& quadrant;
+                std::size_t x;
+                std::size_t y;
+        };
 
         matrix_type();
         ~matrix_type() = default;
 
-        bool get(int const& x, int const& y) const noexcept;
-        void set(int const& x, int const& y, bool const& value);
+        bool get(int const& x, int const& y) noexcept;
+        void set(int const& x, int const& y, bool const& value) noexcept;
         void clear() noexcept;
 
         std::size_t width() const noexcept;
@@ -32,7 +44,7 @@ class matrix_type
         quadrant_type quadrant_ur;
 
     private:
-        std::tuple<quadrant_type const&, std::size_t, std::size_t> convert_coordinate(int const& x, int const& y) const noexcept;
+        coordinate_type convert_coordinate(int const& x, int const& y) noexcept;
 };
 
 #endif // MATRIX_TYPE_HPP

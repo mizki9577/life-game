@@ -5,67 +5,60 @@ matrix_type::matrix_type()
     clear();
 }
 
-std::tuple<matrix_type::quadrant_type const&, std::size_t, std::size_t> matrix_type::convert_coordinate(int const& x, int const& y) const noexcept
+matrix_type::coordinate_type matrix_type::convert_coordinate(int const& x, int const& y) noexcept
 {
-    quadrant_type const* quadrant;
-    std::size_t x2, y2;
+    coordinate_type result{quadrant_br, 0, 0};
 
     if (x >= 0) {
-        x2 = x;
+        result.x = x;
         if (y >= 0) {
-            quadrant = &quadrant_br;
-            y2 = y;
+            result.quadrant = quadrant_br;
+            result.y = y;
         } else {
-            quadrant = &quadrant_ur;
-            y2 = -y - 1;
+            result.quadrant = quadrant_ur;
+            result.y = -y - 1;
         }
     } else {
-        x2 = -x - 1;
+        result.x = -x - 1;
         if (y >= 0) {
-            quadrant = &quadrant_bl;
-            y2 = y;
+            result.quadrant = quadrant_bl;
+            result.y = y;
         } else {
-            quadrant = &quadrant_ul;
-            y2 = -y - 1;
+            result.quadrant = quadrant_ul;
+            result.y = -y - 1;
         }
     }
 
-    return std::make_tuple(*quadrant, x2, y2);
+    return result;
 }
 
-bool matrix_type::get(int const& x, int const& y) const noexcept
+bool matrix_type::get(int const& x, int const& y) noexcept
 {
-    auto const&& params = convert_coordinate(x, y);
-    auto const& quadrant = std::get<0>(params);
-    auto const& x2 = std::get<1>(params);
-    auto const& y2 = std::get<2>(params);
+    auto && coordinate = convert_coordinate(x, y);
 
-    if (quadrant.front().size() > x2 && quadrant.size() > y2) {
-        return quadrant[y2][x2];
+    if (coordinate.quadrant.front().size() > coordinate.x && coordinate.quadrant.size() > coordinate.y) {
+        return coordinate.quadrant[coordinate.y][coordinate.x];
     } else {
         return false;
     }
 }
 
-void matrix_type::set(int const& x, int const& y, bool const& value)
+void matrix_type::set(int const& x, int const& y, bool const& value) noexcept
 {
-    auto const&& params = convert_coordinate(x, y);
-    auto& quadrant = const_cast<quadrant_type&>(std::get<0>(params));
-    auto const& x2 = std::get<1>(params);
-    auto const& y2 = std::get<2>(params);
+    auto && coordinate = convert_coordinate(x, y);
 
     if (value == true) {
-        if (y2 >= quadrant.size() - 1) {
-            quadrant.resize(y2 + 2, boost::dynamic_bitset<>(quadrant.front().size()));
+        if (coordinate.y >= coordinate.quadrant.size() - 1) {
+            coordinate.quadrant.resize(coordinate.y + 2, boost::dynamic_bitset<>(coordinate.quadrant.front().size()));
         }
-        if (x2 >= quadrant.front().size() - 1) {
-            for (auto&& row : quadrant) {
-                row.resize(x2 + 2, false);
+        if (coordinate.x >= coordinate.quadrant.front().size() - 1) {
+            for (auto&& row : coordinate.quadrant) {
+                row.resize(coordinate.x + 2, false);
             }
         }
-        quadrant[y2][x2] = value;
-    } else if (x2 < quadrant.front().size() - 1 && y2 < quadrant.size() - 1) {
-        quadrant[y2][x2] = value;
+        coordinate.quadrant[coordinate.y][coordinate.x] = value;
+    } else if (coordinate.x < coordinate.quadrant.front().size() - 1 && coordinate.y < coordinate.quadrant.size() - 1) {
+        coordinate.quadrant[coordinate.y][coordinate.x] = value;
     }
 }
 
