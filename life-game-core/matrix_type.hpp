@@ -26,7 +26,10 @@ class matrix_type
         int left() const noexcept;
         int right() const noexcept;
 
-        std::array<quadrant_type, 4> quadrants;
+        quadrant_type quadrant_br;
+        quadrant_type quadrant_bl;
+        quadrant_type quadrant_ul;
+        quadrant_type quadrant_ur;
 
     private:
         std::tuple<quadrant_type const&, std::size_t, std::size_t> convert_coordinate(int const& x, int const& y) const noexcept;
