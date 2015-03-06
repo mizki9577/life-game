@@ -13,7 +13,7 @@ bool operator==(matrix_type const& lhs, matrix_type const& rhs)
            && lhs.quadrant_ur == rhs.quadrant_ur;
 }
 
-matrix_type::coordinate_type matrix_type::convert_coordinate(int const& x, int const& y)
+matrix_type::coordinate_type matrix_type::convert_coordinate(int const& x, int const& y) const
 {
     auto quadrant = std::ref(quadrant_br);
     std::size_t nx, ny;
@@ -41,7 +41,7 @@ matrix_type::coordinate_type matrix_type::convert_coordinate(int const& x, int c
     return coordinate_type{quadrant, nx, ny};
 }
 
-bool matrix_type::get(int const& x, int const& y)
+bool matrix_type::get(int const& x, int const& y) const
 {
     auto && coordinate = convert_coordinate(x, y);
 
@@ -55,19 +55,20 @@ bool matrix_type::get(int const& x, int const& y)
 void matrix_type::set(int const& x, int const& y, bool const& value)
 {
     auto && coordinate = convert_coordinate(x, y);
+    auto & quadrant = const_cast<quadrant_type&>(coordinate.quadrant);
 
     if (value == true) {
-        if (coordinate.y >= coordinate.quadrant.size() - 1) {
-            coordinate.quadrant.resize(coordinate.y + 2, my_dynamic_bitset<>(coordinate.quadrant.front().size()));
+        if (coordinate.y >= quadrant.size() - 1) {
+            quadrant.resize(coordinate.y + 2, my_dynamic_bitset<>(quadrant.front().size()));
         }
-        if (coordinate.x >= coordinate.quadrant.front().size() - 1) {
-            for (auto&& row : coordinate.quadrant) {
+        if (coordinate.x >= quadrant.front().size() - 1) {
+            for (auto&& row : quadrant) {
                 row.resize(coordinate.x + 2, false);
             }
         }
-        coordinate.quadrant[coordinate.y][coordinate.x] = value;
-    } else if (coordinate.x < coordinate.quadrant.front().size() - 1 && coordinate.y < coordinate.quadrant.size() - 1) {
-        coordinate.quadrant[coordinate.y][coordinate.x] = value;
+        quadrant[coordinate.y][coordinate.x] = value;
+    } else if (coordinate.x < quadrant.front().size() - 1 && coordinate.y < quadrant.size() - 1) {
+        quadrant[coordinate.y][coordinate.x] = value;
     }
 }
 
@@ -134,11 +135,11 @@ matrix_type matrix_type::shift(int const& x, int const& y)
         //     1. select front x bits of left quadrant's row,
         //     2. flip horizontally it,
         //     3. and copy it to front of right quadrant's row.
-        for (std::size_t i = 0; i < result.quadrant_ur.size(); ++i) {
+        for (std::size_t i = 0; i < result.quadrant_ul.size() && i < result.quadrant_ur.size(); ++i) {
             auto part = result.quadrant_ul[i];
             part.crop(0, x).reverse().copy_to(result.quadrant_ur[i]);
         }
-        for (std::size_t i = 0; i < result.quadrant_br.size(); ++i) {
+        for (std::size_t i = 0; i < result.quadrant_bl.size() && i < result.quadrant_br.size(); ++i) {
             auto part = result.quadrant_bl[i];
             part.crop(0, x).reverse().copy_to(result.quadrant_br[i]);
         }
