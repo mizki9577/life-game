@@ -13,7 +13,7 @@ bool operator==(matrix_type const& lhs, matrix_type const& rhs)
            && lhs.quadrant_ur == rhs.quadrant_ur;
 }
 
-matrix_type::coordinate_type matrix_type::convert_coordinate(int const& x, int const& y) noexcept
+matrix_type::coordinate_type matrix_type::convert_coordinate(int const& x, int const& y)
 {
     auto quadrant = std::ref(quadrant_br);
     std::size_t nx, ny;
@@ -41,7 +41,7 @@ matrix_type::coordinate_type matrix_type::convert_coordinate(int const& x, int c
     return coordinate_type{quadrant, nx, ny};
 }
 
-bool matrix_type::get(int const& x, int const& y) noexcept
+bool matrix_type::get(int const& x, int const& y)
 {
     auto && coordinate = convert_coordinate(x, y);
 
@@ -52,7 +52,7 @@ bool matrix_type::get(int const& x, int const& y) noexcept
     }
 }
 
-void matrix_type::set(int const& x, int const& y, bool const& value) noexcept
+void matrix_type::set(int const& x, int const& y, bool const& value)
 {
     auto && coordinate = convert_coordinate(x, y);
 
@@ -71,7 +71,7 @@ void matrix_type::set(int const& x, int const& y, bool const& value) noexcept
     }
 }
 
-void matrix_type::clear() noexcept
+void matrix_type::clear()
 {
     my_dynamic_bitset<> unit(1, 0);
     quadrant_br = { unit };
@@ -80,37 +80,37 @@ void matrix_type::clear() noexcept
     quadrant_ur = { unit };
 }
 
-std::size_t matrix_type::width() const noexcept
+std::size_t matrix_type::width() const
 {
     return std::max(quadrant_br.front().size(), quadrant_ur.front().size()) + std::max(quadrant_bl.front().size(), quadrant_ul.front().size()) - 2;
 }
 
-std::size_t matrix_type::height() const noexcept
+std::size_t matrix_type::height() const
 {
     return std::max(quadrant_br.size(), quadrant_bl.size()) + std::max(quadrant_ul.size(), quadrant_ur.size()) - 2;
 }
 
-int matrix_type::top() const noexcept
+int matrix_type::top() const
 {
     return -std::max(quadrant_ul.size(), quadrant_ur.size());
 }
 
-int matrix_type::bottom() const noexcept
+int matrix_type::bottom() const
 {
     return std::max(quadrant_br.size(), quadrant_bl.size());
 }
 
-int matrix_type::left() const noexcept
+int matrix_type::left() const
 {
     return -std::max(quadrant_bl.front().size(), quadrant_ul.front().size());
 }
 
-int matrix_type::right() const noexcept
+int matrix_type::right() const
 {
     return std::max(quadrant_br.front().size(), quadrant_ur.front().size());
 }
 
-matrix_type matrix_type::shift(int const& x, int const& y) noexcept
+matrix_type matrix_type::shift(int const& x, int const& y)
 {
     matrix_type result = *this;
     if (x > 0) {

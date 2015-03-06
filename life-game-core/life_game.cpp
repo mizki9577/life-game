@@ -1,6 +1,6 @@
 #include "life_game.hpp"
 
-void life_game::next() noexcept
+void life_game::next()
 {
     auto next_matrix = *this;
     for (int y = top(); y < bottom(); ++y) {
