@@ -1,10 +1,9 @@
 #ifndef MATRIX_TYPE_HPP
 #define MATRIX_TYPE_HPP
 
+#include <algorithm>
 #include <functional>
-#include <tuple>
 #include <vector>
-#include <array>
 #include <boost/dynamic_bitset.hpp>
 
 class matrix_type
@@ -30,6 +29,8 @@ class matrix_type
         bool get(int const& x, int const& y) noexcept;
         void set(int const& x, int const& y, bool const& value) noexcept;
         void clear() noexcept;
+
+        matrix_type shift(std::size_t const& x, std::size_t y) noexcept;
 
         std::size_t width() const noexcept;
         std::size_t height() const noexcept;

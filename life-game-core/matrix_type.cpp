@@ -102,4 +102,58 @@ int matrix_type::right() const noexcept
     return std::max(quadrant_br.front().size(), quadrant_ur.front().size());
 }
 
+matrix_type matrix_type::shift(std::size_t const& x, std::size_t y) noexcept
+{
+    matrix_type result = *this;
+    if (x > 0) {
+        // shift to right
+
+        // shift right quadrants to right.
+        // for right quadrants, the direction "right" is backward (MSB side).
+        // so shift operator is <<=.
+        for (auto && row : result.quadrant_ur) {
+            row <<= x;
+        }
+        for (auto && row : result.quadrant_br) {
+            row <<= x;
+        }
+
+        // copy rightmost x bits of left quadrants to leftmost x bits of right quadrants.
+        // for left quadrants, the direction "right" is frontward (LSB side).
+        // and for right quadrants, the direction "left" is frontward (LSB side).
+        // in addion, left quadrants is flipped horizontally.
+        // so do following procedure for each row:
+        //     1. select front x bits of left quadrant's row,
+        //     2. flip horizontally it,
+        //     3. and copy it to front of right quadrant's row.
+        for (std::size_t i = 0; i < result.quadrant_ur.size(); ++i) {
+            std::reverse_copy(result.quadrant_ul[i].begin(),
+                              result.quadrant_ul[i].begin() + x,
+                              result.quadrant_ur[i].begin());
+        }
+        for (std::size_t i = 0; i < result.quadrant_br.size(); ++i) {
+            std::reverse_copy(result.quadrant_bl[i].begin(),
+                              result.quadrant_bl[i].begin() + x,
+                              result.quadrant_br[i].begin());
+        }
+
+        // shift left quadrants to right.
+        // for left quadrants, the direction "right" is frontward (LSB side).
+        // so shift operator is >>=.
+        for (auto && row : result.quadrant_ul) {
+            row >>= x;
+        }
+        for (auto && row : result.quadrant_bl) {
+            row >>= x;
+        }
+    } else if (x < 0) {
+    }
+
+    if (y > 0) {
+    } else if (y < 0) {
+    }
+
+    return result;
+}
+
 // vim: set ts=4 sw=4 et:
