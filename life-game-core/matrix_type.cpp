@@ -5,6 +5,14 @@ matrix_type::matrix_type()
     clear();
 }
 
+bool operator==(matrix_type const& lhs, matrix_type const& rhs)
+{
+    return    lhs.quadrant_br == rhs.quadrant_br
+           && lhs.quadrant_bl == rhs.quadrant_bl
+           && lhs.quadrant_ul == rhs.quadrant_ul
+           && lhs.quadrant_ur == rhs.quadrant_ur;
+}
+
 matrix_type::coordinate_type matrix_type::convert_coordinate(int const& x, int const& y) noexcept
 {
     auto quadrant = std::ref(quadrant_br);

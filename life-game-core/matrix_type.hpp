@@ -26,6 +26,8 @@ class matrix_type
         matrix_type();
         ~matrix_type() = default;
 
+        friend bool operator==(matrix_type const& lhs, matrix_type const& rhs);
+
         bool get(int const& x, int const& y) noexcept;
         void set(int const& x, int const& y, bool const& value) noexcept;
         void clear() noexcept;
