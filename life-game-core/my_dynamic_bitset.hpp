@@ -1,6 +1,7 @@
 #ifndef MY_DYNAMIC_BITSET_HPP
 #define MY_DYNAMIC_BITSET_HPP
 
+#include <cstddef>
 #include <boost/dynamic_bitset.hpp>
 
 template <typename Block, typename Allocator>
@@ -12,6 +13,9 @@ class my_dynamic_bitset : public boost::dynamic_bitset<Block, Allocator>
     public:
         my_dynamic_bitset<Block, Allocator> crop(size_type first, size_type last);
         my_dynamic_bitset<Block, Allocator> reverse();
+        my_dynamic_bitset<Block, Allocator> copy_to(size_type first, size_type last,
+                                                    my_dynamic_bitset<Block, Allocator>& dest, size_type result);
+        my_dynamic_bitset<Block, Allocator> copy_to(my_dynamic_bitset<Block, Allocator>& dest, size_type result = 0);
 };
 
 template <typename Block = unsigned long,
@@ -35,6 +39,26 @@ my_dynamic_bitset<Block, Allocator> my_dynamic_bitset<Block, Allocator>::reverse
         --j;
     }
     return *this;
+}
+
+template <typename Block, typename Allocator>
+my_dynamic_bitset<Block, Allocator>
+my_dynamic_bitset<Block, Allocator>::copy_to(size_type first, size_type last,
+                                             my_dynamic_bitset<Block, Allocator>& dest, size_type result)
+{
+    while (first < last) {
+        dest[result] = (*this)[first];
+        ++first;
+        ++result;
+    }
+    return *this;
+}
+
+template <typename Block, typename Allocator>
+my_dynamic_bitset<Block, Allocator>
+my_dynamic_bitset<Block, Allocator>::copy_to(my_dynamic_bitset<Block, Allocator>& dest, size_type result)
+{
+    return copy_to(0, this->size() - 1, dest, result);
 }
 
 #endif // MY_DYNAMIC_BITSET_HPP
