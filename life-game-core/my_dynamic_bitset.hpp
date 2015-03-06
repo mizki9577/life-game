@@ -33,8 +33,11 @@ template <typename Block, typename Allocator>
 my_dynamic_bitset<Block, Allocator> my_dynamic_bitset<Block, Allocator>::reverse()
 {
     size_type i = 0, j = this->size() - 1;
+    bool t;
     while (i < j) {
-        std::swap((*this)[i], (*this)[j]);
+        t = (*this)[i];
+        (*this)[i] = (*this)[j];
+        (*this)[j] = t;
         ++i;
         --j;
     }
