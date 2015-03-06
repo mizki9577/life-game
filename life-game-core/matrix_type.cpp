@@ -110,7 +110,7 @@ int matrix_type::right() const noexcept
     return std::max(quadrant_br.front().size(), quadrant_ur.front().size());
 }
 
-matrix_type matrix_type::shift(std::size_t const& x, std::size_t y) noexcept
+matrix_type matrix_type::shift(int const& x, int const& y) noexcept
 {
     matrix_type result = *this;
     if (x > 0) {
@@ -135,14 +135,12 @@ matrix_type matrix_type::shift(std::size_t const& x, std::size_t y) noexcept
         //     2. flip horizontally it,
         //     3. and copy it to front of right quadrant's row.
         for (std::size_t i = 0; i < result.quadrant_ur.size(); ++i) {
-            std::reverse_copy(result.quadrant_ul[i].begin(),
-                              result.quadrant_ul[i].begin() + x,
-                              result.quadrant_ur[i].begin());
+            auto part = result.quadrant_ul[i];
+            part.crop(0, x).reverse().copy_to(result.quadrant_ur[i]);
         }
         for (std::size_t i = 0; i < result.quadrant_br.size(); ++i) {
-            std::reverse_copy(result.quadrant_bl[i].begin(),
-                              result.quadrant_bl[i].begin() + x,
-                              result.quadrant_br[i].begin());
+            auto part = result.quadrant_bl[i];
+            part.crop(0, x).reverse().copy_to(result.quadrant_br[i]);
         }
 
         // shift left quadrants to right.
