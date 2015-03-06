@@ -16,7 +16,8 @@ SOURCES += life_game.cpp \
 
 HEADERS += life_game.hpp\
         life-game-core_global.hpp \
-    matrix_type.hpp
+    matrix_type.hpp \
+    my_dynamic_bitset.hpp
 
 unix {
     target.path = /usr/lib

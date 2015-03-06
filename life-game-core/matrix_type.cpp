@@ -58,7 +58,7 @@ void matrix_type::set(int const& x, int const& y, bool const& value) noexcept
 
     if (value == true) {
         if (coordinate.y >= coordinate.quadrant.size() - 1) {
-            coordinate.quadrant.resize(coordinate.y + 2, boost::dynamic_bitset<>(coordinate.quadrant.front().size()));
+            coordinate.quadrant.resize(coordinate.y + 2, my_dynamic_bitset<>(coordinate.quadrant.front().size()));
         }
         if (coordinate.x >= coordinate.quadrant.front().size() - 1) {
             for (auto&& row : coordinate.quadrant) {
@@ -73,7 +73,7 @@ void matrix_type::set(int const& x, int const& y, bool const& value) noexcept
 
 void matrix_type::clear() noexcept
 {
-    boost::dynamic_bitset<> unit(1, 0);
+    my_dynamic_bitset<> unit(1, 0);
     quadrant_br = { unit };
     quadrant_bl = { unit };
     quadrant_ul = { unit };

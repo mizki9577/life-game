@@ -4,13 +4,13 @@
 #include <algorithm>
 #include <functional>
 #include <vector>
-#include <boost/dynamic_bitset.hpp>
+#include "my_dynamic_bitset.hpp"
 
 class matrix_type
 {
     public:
-        using quadrant_type = std::vector<boost::dynamic_bitset<>>;
-        using reference_type = boost::dynamic_bitset<>::reference;
+        using quadrant_type = std::vector<my_dynamic_bitset<>>;
+        using reference_type = my_dynamic_bitset<>::reference;
 
         class coordinate_type
         {
