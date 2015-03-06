@@ -94,4 +94,33 @@ BOOST_AUTO_TEST_CASE(life_game_rpentomino)
     BOOST_CHECK_EQUAL(game.get(2, 1), true);
 }
 
+BOOST_AUTO_TEST_CASE(matrix_type_shift_operation)
+{
+    matrix_type matrix, shifted;
+
+    matrix.set(-1, -1,  true); matrix.set( 0, -1, false); matrix.set( 1, -1, false);
+    matrix.set(-1,  0, false); matrix.set( 0,  0,  true); matrix.set( 1,  0, false);
+    matrix.set(-1,  1, false); matrix.set( 0,  1, false); matrix.set( 1,  1,  true);
+
+    shifted.set(-1, -1, false); shifted.set( 0, -1,  true); shifted.set( 1, -1, false);
+    shifted.set(-1,  0, false); shifted.set( 0,  0, false); shifted.set( 1,  0,  true);
+    shifted.set(-1,  1, false); shifted.set( 0,  1, false); shifted.set( 1,  1, false);
+    BOOST_CHECK_EQUAL(matrix.shift(0, -1), shifted);
+
+    shifted.set(-1, -1, false); shifted.set( 0, -1, false); shifted.set( 1, -1, false);
+    shifted.set(-1,  0,  true); shifted.set( 0,  0, false); shifted.set( 1,  0, false);
+    shifted.set(-1,  1, false); shifted.set( 0,  1,  true); shifted.set( 1,  1, false);
+    BOOST_CHECK_EQUAL(matrix.shift(0, 1), shifted);
+
+    shifted.set(-1, -1, false); shifted.set( 0, -1,  true); shifted.set( 1, -1, false);
+    shifted.set(-1,  0, false); shifted.set( 0,  0, false); shifted.set( 1,  0,  true);
+    shifted.set(-1,  1, false); shifted.set( 0,  1, false); shifted.set( 1,  1, false);
+    BOOST_CHECK_EQUAL(matrix.shift(1, 0), shifted);
+
+    shifted.set(-1, -1, false); shifted.set( 0, -1, false); shifted.set( 1, -1, false);
+    shifted.set(-1,  0,  true); shifted.set( 0,  0, false); shifted.set( 1,  0, false);
+    shifted.set(-1,  1, false); shifted.set( 0,  1,  true); shifted.set( 1,  1, false);
+    BOOST_CHECK_EQUAL(matrix.shift(-1, 0), shifted);
+}
+
 // vim: set ts=4 sw=4 et:
