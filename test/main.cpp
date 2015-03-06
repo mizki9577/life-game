@@ -102,25 +102,49 @@ BOOST_AUTO_TEST_CASE(matrix_type_shift_operation)
     matrix.set(-1,  0, false); matrix.set( 0,  0,  true); matrix.set( 1,  0, false);
     matrix.set(-1,  1, false); matrix.set( 0,  1, false); matrix.set( 1,  1,  true);
 
-    shifted.set(-1, -1, false); shifted.set( 0, -1,  true); shifted.set( 1, -1, false);
-    shifted.set(-1,  0, false); shifted.set( 0,  0, false); shifted.set( 1,  0,  true);
-    shifted.set(-1,  1, false); shifted.set( 0,  1, false); shifted.set( 1,  1, false);
-    BOOST_CHECK_EQUAL(matrix.shift(0, -1), shifted);
+    shifted = matrix.shift(0, -1);
+    BOOST_CHECK_EQUAL(shifted.get(-1, -1), false);
+    BOOST_CHECK_EQUAL(shifted.get( 0, -1),  true);
+    BOOST_CHECK_EQUAL(shifted.get( 1, -1), false);
+    BOOST_CHECK_EQUAL(shifted.get(-1,  0), false);
+    BOOST_CHECK_EQUAL(shifted.get( 0,  0), false);
+    BOOST_CHECK_EQUAL(shifted.get( 1,  0),  true);
+    BOOST_CHECK_EQUAL(shifted.get(-1,  1), false);
+    BOOST_CHECK_EQUAL(shifted.get( 0,  1), false);
+    BOOST_CHECK_EQUAL(shifted.get( 1,  1), false);
 
-    shifted.set(-1, -1, false); shifted.set( 0, -1, false); shifted.set( 1, -1, false);
-    shifted.set(-1,  0,  true); shifted.set( 0,  0, false); shifted.set( 1,  0, false);
-    shifted.set(-1,  1, false); shifted.set( 0,  1,  true); shifted.set( 1,  1, false);
-    BOOST_CHECK_EQUAL(matrix.shift(0, 1), shifted);
+    shifted = matrix.shift(0, 1);
+    BOOST_CHECK_EQUAL(shifted.get(-1, -1), false);
+    BOOST_CHECK_EQUAL(shifted.get( 0, -1), false);
+    BOOST_CHECK_EQUAL(shifted.get( 1, -1), false);
+    BOOST_CHECK_EQUAL(shifted.get(-1,  0),  true);
+    BOOST_CHECK_EQUAL(shifted.get( 0,  0), false);
+    BOOST_CHECK_EQUAL(shifted.get( 1,  0), false);
+    BOOST_CHECK_EQUAL(shifted.get(-1,  1), false);
+    BOOST_CHECK_EQUAL(shifted.get( 0,  1),  true);
+    BOOST_CHECK_EQUAL(shifted.get( 1,  1), false);
 
-    shifted.set(-1, -1, false); shifted.set( 0, -1,  true); shifted.set( 1, -1, false);
-    shifted.set(-1,  0, false); shifted.set( 0,  0, false); shifted.set( 1,  0,  true);
-    shifted.set(-1,  1, false); shifted.set( 0,  1, false); shifted.set( 1,  1, false);
-    BOOST_CHECK_EQUAL(matrix.shift(1, 0), shifted);
+    shifted = matrix.shift(1, 0);
+    BOOST_CHECK_EQUAL(shifted.get(-1, -1), false);
+    BOOST_CHECK_EQUAL(shifted.get( 0, -1),  true);
+    BOOST_CHECK_EQUAL(shifted.get( 1, -1), false);
+    BOOST_CHECK_EQUAL(shifted.get(-1,  0), false);
+    BOOST_CHECK_EQUAL(shifted.get( 0,  0), false);
+    BOOST_CHECK_EQUAL(shifted.get( 1,  0),  true);
+    BOOST_CHECK_EQUAL(shifted.get(-1,  1), false);
+    BOOST_CHECK_EQUAL(shifted.get( 0,  1), false);
+    BOOST_CHECK_EQUAL(shifted.get( 1,  1), false);
 
-    shifted.set(-1, -1, false); shifted.set( 0, -1, false); shifted.set( 1, -1, false);
-    shifted.set(-1,  0,  true); shifted.set( 0,  0, false); shifted.set( 1,  0, false);
-    shifted.set(-1,  1, false); shifted.set( 0,  1,  true); shifted.set( 1,  1, false);
-    BOOST_CHECK_EQUAL(matrix.shift(-1, 0), shifted);
+    shifted = matrix.shift(-1, 0);
+    BOOST_CHECK_EQUAL(shifted.get(-1, -1), false);
+    BOOST_CHECK_EQUAL(shifted.get( 0, -1), false);
+    BOOST_CHECK_EQUAL(shifted.get( 1, -1), false);
+    BOOST_CHECK_EQUAL(shifted.get(-1,  0),  true);
+    BOOST_CHECK_EQUAL(shifted.get( 0,  0), false);
+    BOOST_CHECK_EQUAL(shifted.get( 1,  0), false);
+    BOOST_CHECK_EQUAL(shifted.get(-1,  1), false);
+    BOOST_CHECK_EQUAL(shifted.get( 0,  1),  true);
+    BOOST_CHECK_EQUAL(shifted.get( 1,  1), false);
 }
 
 // vim: set ts=4 sw=4 et:
