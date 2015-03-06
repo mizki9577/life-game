@@ -32,7 +32,7 @@ class matrix_type
         void set(int const& x, int const& y, bool const& value) noexcept;
         void clear() noexcept;
 
-        matrix_type shift(std::size_t const& x, std::size_t y) noexcept;
+        matrix_type shift(int const& x, int const& y) noexcept;
 
         std::size_t width() const noexcept;
         std::size_t height() const noexcept;
