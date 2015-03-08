@@ -9,12 +9,11 @@ MainWindow::MainWindow(QWidget *parent) :
     timer = new QTimer(this);
     timer->setInterval(ui->intervalSpinBox->value());
     connect(timer, SIGNAL(timeout()), this, SLOT(updateMatrixArea()));
-    game.set(-1, 1, true);
-    game.set(0, -1, true);
-    game.set(0, 0, true);
     game.set(0, 1, true);
-    game.set(1, -1, true);
-    game.shift(1, 0);
+    game.set(1, 0, true);
+    game.set(1, 1, true);
+    game.set(1, 2, true);
+    game.set(2, 0, true);
 }
 
 MainWindow::~MainWindow()
