@@ -145,51 +145,56 @@ matrix_type& matrix_type::shift(int x, int y)
         * そのビット列は左右反転させた状態でコピーされねばならない.
         */
 
-        quadrant_type *top_front,
-                      *top_back,
-                      *bottom_front,
-                      *bottom_back;
+        quadrant_type *top_front_ptr,
+                      *top_back_ptr,
+                      *bottom_front_ptr,
+                      *bottom_back_ptr;
 
         if (x > 0) {
-            top_front    = &quadrant_ur;
-            top_back     = &quadrant_ul;
-            bottom_front = &quadrant_br;
-            bottom_back  = &quadrant_bl;
+            top_front_ptr    = &quadrant_ur;
+            top_back_ptr     = &quadrant_ul;
+            bottom_front_ptr = &quadrant_br;
+            bottom_back_ptr  = &quadrant_bl;
         } else {
             x = -x;
-            top_front    = &quadrant_ul;
-            top_back     = &quadrant_ur;
-            bottom_front = &quadrant_bl;
-            bottom_back  = &quadrant_br;
+            top_front_ptr    = &quadrant_ul;
+            top_back_ptr     = &quadrant_ur;
+            bottom_front_ptr = &quadrant_bl;
+            bottom_back_ptr  = &quadrant_br;
         }
+
+        quadrant_type &top_front    = std::ref(*top_front_ptr),
+                      &top_back     = std::ref(*top_back_ptr),
+                      &bottom_front = std::ref(*bottom_front_ptr),
+                      &bottom_back  = std::ref(*bottom_back_ptr);
 
         // 1. シフト方向側の象限をシフト方向にxビットシフトする
         // 2. シフト方向側の端の番人ビットを0にする
-        for (auto && row : *top_front) {
+        for (auto && row : top_front) {
             row <<= x;
             row[row.size() - 1] = false;
         }
-        for (auto && row : *bottom_front) {
+        for (auto && row : bottom_front) {
             row <<= x;
             row[row.size() - 1] = false;
         }
 
         // 3. シフト方向に対して反対側の象限の, シフト方向側のxビットを,
         //    シフト方向側の象限の, シフト方向に対して反対側のxビットにコピーする
-        for (std::size_t i = 0; i < top_back->size() && i < top_front->size(); ++i) {
-            auto part = (*top_back)[i];
-            part.crop(0, x).reverse().copy_to((*top_front)[i]);
+        for (std::size_t i = 0; i < top_back.size() && i < top_front.size(); ++i) {
+            auto part = top_back[i];
+            part.crop(0, x).reverse().copy_to(top_front[i]);
         }
-        for (std::size_t i = 0; i < bottom_back->size() && i < bottom_front->size(); ++i) {
-            auto part = (*bottom_back)[i];
-            part.crop(0, x).reverse().copy_to((*bottom_front)[i]);
+        for (std::size_t i = 0; i < bottom_back.size() && i < bottom_front.size(); ++i) {
+            auto part = bottom_back[i];
+            part.crop(0, x).reverse().copy_to(bottom_front[i]);
         }
 
         // 4. シフト方向に対して反対側の象限をシフト方向にxビットシフトする
-        for (auto && row : *top_back) {
+        for (auto && row : top_back) {
             row >>= x;
         }
-        for (auto && row : *bottom_back) {
+        for (auto && row : bottom_back) {
             row >>= x;
         }
     }
