@@ -163,10 +163,10 @@ matrix_type& matrix_type::shift(int x, int y)
             bottom_back_ptr  = &quadrant_br;
         }
 
-        quadrant_type &top_front    = std::ref(*top_front_ptr),
-                      &top_back     = std::ref(*top_back_ptr),
-                      &bottom_front = std::ref(*bottom_front_ptr),
-                      &bottom_back  = std::ref(*bottom_back_ptr);
+        quadrant_type &top_front    = *top_front_ptr,
+                      &top_back     = *top_back_ptr,
+                      &bottom_front = *bottom_front_ptr,
+                      &bottom_back  = *bottom_back_ptr;
 
         // 1. シフト方向側の象限をシフト方向にxビットシフトする
         // 2. シフト方向側の端の番人ビットを0にする
