@@ -94,6 +94,31 @@ BOOST_AUTO_TEST_CASE(life_game_rpentomino)
     BOOST_CHECK_EQUAL(game.get(2, 1), true);
 }
 
+BOOST_AUTO_TEST_CASE(my_dynamic_bitset_crop)
+{
+    my_dynamic_bitset<> a(10, 0b1010110010);
+    a.crop(2, 7);
+    my_dynamic_bitset<> b(5, 0b01100);
+    BOOST_CHECK_EQUAL(a, b);
+}
+
+BOOST_AUTO_TEST_CASE(my_dynamic_bitset_reverse)
+{
+    my_dynamic_bitset<> a(10, 0b1010110010);
+    a.reverse();
+    my_dynamic_bitset<> b(10, 0b0100110101);
+    BOOST_CHECK_EQUAL(a, b);
+}
+
+BOOST_AUTO_TEST_CASE(my_dynamic_bitset_copy_to)
+{
+    my_dynamic_bitset<> source(10, 0b0001111100);
+    my_dynamic_bitset<> destination(10, 0b0000000000);
+    my_dynamic_bitset<> expected(10, 0b0111110000);
+    source.copy_to(2, 7, destination, 4);
+    BOOST_CHECK_EQUAL(destination, expected);
+}
+
 BOOST_AUTO_TEST_CASE(matrix_type_right_shift)
 {
     matrix_type matrix, shifted;
@@ -109,8 +134,6 @@ BOOST_AUTO_TEST_CASE(matrix_type_right_shift)
     shifted.set(-2,  0, false); shifted.set(-1,  0, false); shifted.set( 0,  0, false); shifted.set( 1,  0,  true); shifted.set( 2,  0, false);
     shifted.set(-2,  1, false); shifted.set(-1,  1, false); shifted.set( 0,  1,  true); shifted.set( 1,  1, false); shifted.set( 2,  1,  true);
     shifted.set(-2,  2, false); shifted.set(-1,  2,  true); shifted.set( 0,  2, false); shifted.set( 1,  2, false); shifted.set( 2,  2, false);
-
-    std::cerr << shifted;
 
     BOOST_CHECK_EQUAL(shifted, matrix.shift(1, 0));
 }

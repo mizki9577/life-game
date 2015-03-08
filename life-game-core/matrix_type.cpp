@@ -113,28 +113,40 @@ int matrix_type::right() const
 
 matrix_type matrix_type::shift(int const& x, int const& y)
 {
+    /* 非常に混乱するメモ
+     *
+     * nビット右シフトは次の手順で行われる:
+     *  1. 右側の象限をnビット右シフトする
+     *  2. 右側の右端の番人ビットを0にする
+     *  3. 左側の象限の右側nビットを右側の象限の左側nビットにコピーする
+     *  4. 左側の象限をnビット右シフトする
+     * 左シフトは上記の手順を左右に反転すれば同じである.
+     *
+     * 実際には, 右側の象限の右端はMSB, 左端はLSB,
+     *           左側の象限の右端はLSB, 左端はMSBになる.
+     * すなわち, 右側の象限の右シフトはMSB側へのシフトになるので左シフトに,
+     *           左側の象限の右シフトはLSB側へのシフトになるので右シフトになる.
+     * また, 右側の象限から左側の象限,
+     * あるいは左側の象限から右側の象限へビット列をコピーするとき,
+     * そのビット列は左右反転させた状態でコピーされねばならない.
+     */
+
     matrix_type result = *this;
     if (x > 0) {
-        // shift to right
+        // 右にシフトする
 
-        // shift right quadrants to right.
-        // for right quadrants, the direction "right" is backward (MSB side).
-        // so shift operator is <<=.
+        // 1. 右側の象限をxビット右シフトする
+        // 2. 右側の右端の番人ビットを0にする
         for (auto && row : result.quadrant_ur) {
             row <<= x;
+            row[row.size() - 1] = false;
         }
         for (auto && row : result.quadrant_br) {
             row <<= x;
+            row[row.size() - 1] = false;
         }
 
-        // copy rightmost x bits of left quadrants to leftmost x bits of right quadrants.
-        // for left quadrants, the direction "right" is frontward (LSB side).
-        // and for right quadrants, the direction "left" is frontward (LSB side).
-        // in addion, left quadrants is flipped horizontally.
-        // so do following procedure for each row:
-        //     1. select front x bits of left quadrant's row,
-        //     2. flip horizontally it,
-        //     3. and copy it to front of right quadrant's row.
+        // 3. 左側の象限の右側xビットを右側の象限の左側xビットにコピーする
         for (std::size_t i = 0; i < result.quadrant_ul.size() && i < result.quadrant_ur.size(); ++i) {
             auto part = result.quadrant_ul[i];
             part.crop(0, x).reverse().copy_to(result.quadrant_ur[i]);
@@ -144,9 +156,7 @@ matrix_type matrix_type::shift(int const& x, int const& y)
             part.crop(0, x).reverse().copy_to(result.quadrant_br[i]);
         }
 
-        // shift left quadrants to right.
-        // for left quadrants, the direction "right" is frontward (LSB side).
-        // so shift operator is >>=.
+        // 4. 左側の象限をnビット右シフトする
         for (auto && row : result.quadrant_ul) {
             row >>= x;
         }
