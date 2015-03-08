@@ -125,89 +125,71 @@ int matrix_type::right() const
 
 matrix_type& matrix_type::shift(int x, int y)
 {
-    /* 非常に混乱するメモ
-     *
-     * nビット右シフトは次の手順で行われる:
-     *  1. 右側の象限をnビット右シフトする
-     *  2. 右側の右端の番人ビットを0にする
-     *  3. 左側の象限の右側nビットを右側の象限の左側nビットにコピーする
-     *  4. 左側の象限をnビット右シフトする
-     * 左シフトは上記の手順を左右に反転すれば同じである.
-     *
-     * 実際には, 右側の象限の右端はMSB, 左端はLSB,
-     *           左側の象限の右端はLSB, 左端はMSBになる.
-     * すなわち, 右側の象限の右シフトはMSB側へのシフトになるので左シフトに,
-     *           左側の象限の右シフトはLSB側へのシフトになるので右シフトになる.
-     * また, 右側の象限から左側の象限,
-     * あるいは左側の象限から右側の象限へビット列をコピーするとき,
-     * そのビット列は左右反転させた状態でコピーされねばならない.
-     */
+    if (x != 0) {
+        // 水平方向にシフトする
 
-    if (x > 0) {
-        // 右にシフトする
+        /*
+        * nビット右シフトは次の手順で行われる:
+        *  1. 右側の象限をnビット右シフトする
+        *  2. 右側の右端の番人ビットを0にする
+        *  3. 左側の象限の右側nビットを右側の象限の左側nビットにコピーする
+        *  4. 左側の象限をnビット右シフトする
+        * 左シフトは上記の手順を左右に反転すれば同じである.
+        *
+        * 実際には, 右側の象限の右端はMSB, 左端はLSB,
+        *           左側の象限の右端はLSB, 左端はMSBになる.
+        * すなわち, 右側の象限の右シフトはMSB側へのシフトになるので左シフトに,
+        *           左側の象限の右シフトはLSB側へのシフトになるので右シフトになる.
+        * また, 右側の象限から左側の象限,
+        * あるいは左側の象限から右側の象限へビット列をコピーするとき,
+        * そのビット列は左右反転させた状態でコピーされねばならない.
+        */
 
-        // 1. 右側の象限をxビット右シフトする
-        // 2. 右側の右端の番人ビットを0にする
-        for (auto && row : quadrant_ur) {
+        quadrant_type *top_front,
+                      *top_back,
+                      *bottom_front,
+                      *bottom_back;
+
+        if (x > 0) {
+            top_front    = &quadrant_ur;
+            top_back     = &quadrant_ul;
+            bottom_front = &quadrant_br;
+            bottom_back  = &quadrant_bl;
+        } else {
+            x = -x;
+            top_front    = &quadrant_ul;
+            top_back     = &quadrant_ur;
+            bottom_front = &quadrant_bl;
+            bottom_back  = &quadrant_br;
+        }
+
+        // 1. シフト方向側の象限をシフト方向にxビットシフトする
+        // 2. シフト方向側の端の番人ビットを0にする
+        for (auto && row : *top_front) {
             row <<= x;
             row[row.size() - 1] = false;
         }
-        for (auto && row : quadrant_br) {
+        for (auto && row : *bottom_front) {
             row <<= x;
             row[row.size() - 1] = false;
         }
 
-        // 3. 左側の象限の右側xビットを右側の象限の左側xビットにコピーする
-        for (std::size_t i = 0; i < quadrant_ul.size() && i < quadrant_ur.size(); ++i) {
-            auto part = quadrant_ul[i];
-            part.crop(0, x).reverse().copy_to(quadrant_ur[i]);
+        // 3. シフト方向に対して反対側の象限の, シフト方向側のxビットを,
+        //    シフト方向側の象限の, シフト方向に対して反対側のxビットにコピーする
+        for (std::size_t i = 0; i < top_back->size() && i < top_front->size(); ++i) {
+            auto part = (*top_back)[i];
+            part.crop(0, x).reverse().copy_to((*top_front)[i]);
         }
-        for (std::size_t i = 0; i < quadrant_bl.size() && i < quadrant_br.size(); ++i) {
-            auto part = quadrant_bl[i];
-            part.crop(0, x).reverse().copy_to(quadrant_br[i]);
+        for (std::size_t i = 0; i < bottom_back->size() && i < bottom_front->size(); ++i) {
+            auto part = (*bottom_back)[i];
+            part.crop(0, x).reverse().copy_to((*bottom_front)[i]);
         }
 
-        // 4. 左側の象限をnビット右シフトする
-        for (auto && row : quadrant_ul) {
+        // 4. シフト方向に対して反対側の象限をシフト方向にxビットシフトする
+        for (auto && row : *top_back) {
             row >>= x;
         }
-        for (auto && row : quadrant_bl) {
-            row >>= x;
-        }
-    } else if (x < 0) {
-        x = -x;
-        // 左にシフトする
-
-        // 1. 左側の象限をxビット左シフトする
-        // 2. 左側の左端の番人ビットを0にする
-        for (auto && row : quadrant_ul) {
-            row <<= x;
-            row[row.size() - 1] = false;
-        }
-        for (auto && row : quadrant_bl) {
-            row <<= x;
-            row[row.size() - 1] = false;
-        }
-
-        // 3. 右側の象限の左側xビットを左側の象限の右側xビットにコピーする
-        for (std::size_t i = 0; i < quadrant_ur.size() && i < quadrant_ul.size(); ++i) {
-            auto part = quadrant_ur[i];
-            part.crop(0, x);
-            part.reverse();
-            part.copy_to(quadrant_ul[i]);
-        }
-        for (std::size_t i = 0; i < quadrant_br.size() && i < quadrant_bl.size(); ++i) {
-            auto part = quadrant_br[i];
-            part.crop(0, x);
-            part.reverse();
-            part.copy_to(quadrant_bl[i]);
-        }
-
-        // 4. 右側の象限をnビット左シフトする
-        for (auto && row : quadrant_ur) {
-            row >>= x;
-        }
-        for (auto && row : quadrant_br) {
+        for (auto && row : *bottom_back) {
             row >>= x;
         }
     }
