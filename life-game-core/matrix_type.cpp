@@ -123,7 +123,7 @@ int matrix_type::right() const
     return std::max(quadrant_br.front().size(), quadrant_ur.front().size());
 }
 
-matrix_type matrix_type::shift(int x, int y)
+matrix_type& matrix_type::shift(int x, int y)
 {
     /* 非常に混乱するメモ
      *
@@ -143,36 +143,35 @@ matrix_type matrix_type::shift(int x, int y)
      * そのビット列は左右反転させた状態でコピーされねばならない.
      */
 
-    matrix_type result = *this;
     if (x > 0) {
         // 右にシフトする
 
         // 1. 右側の象限をxビット右シフトする
         // 2. 右側の右端の番人ビットを0にする
-        for (auto && row : result.quadrant_ur) {
+        for (auto && row : quadrant_ur) {
             row <<= x;
             row[row.size() - 1] = false;
         }
-        for (auto && row : result.quadrant_br) {
+        for (auto && row : quadrant_br) {
             row <<= x;
             row[row.size() - 1] = false;
         }
 
         // 3. 左側の象限の右側xビットを右側の象限の左側xビットにコピーする
-        for (std::size_t i = 0; i < result.quadrant_ul.size() && i < result.quadrant_ur.size(); ++i) {
-            auto part = result.quadrant_ul[i];
-            part.crop(0, x).reverse().copy_to(result.quadrant_ur[i]);
+        for (std::size_t i = 0; i < quadrant_ul.size() && i < quadrant_ur.size(); ++i) {
+            auto part = quadrant_ul[i];
+            part.crop(0, x).reverse().copy_to(quadrant_ur[i]);
         }
-        for (std::size_t i = 0; i < result.quadrant_bl.size() && i < result.quadrant_br.size(); ++i) {
-            auto part = result.quadrant_bl[i];
-            part.crop(0, x).reverse().copy_to(result.quadrant_br[i]);
+        for (std::size_t i = 0; i < quadrant_bl.size() && i < quadrant_br.size(); ++i) {
+            auto part = quadrant_bl[i];
+            part.crop(0, x).reverse().copy_to(quadrant_br[i]);
         }
 
         // 4. 左側の象限をnビット右シフトする
-        for (auto && row : result.quadrant_ul) {
+        for (auto && row : quadrant_ul) {
             row >>= x;
         }
-        for (auto && row : result.quadrant_bl) {
+        for (auto && row : quadrant_bl) {
             row >>= x;
         }
     } else if (x < 0) {
@@ -181,34 +180,34 @@ matrix_type matrix_type::shift(int x, int y)
 
         // 1. 左側の象限をxビット左シフトする
         // 2. 左側の左端の番人ビットを0にする
-        for (auto && row : result.quadrant_ul) {
+        for (auto && row : quadrant_ul) {
             row <<= x;
             row[row.size() - 1] = false;
         }
-        for (auto && row : result.quadrant_bl) {
+        for (auto && row : quadrant_bl) {
             row <<= x;
             row[row.size() - 1] = false;
         }
 
         // 3. 右側の象限の左側xビットを左側の象限の右側xビットにコピーする
-        for (std::size_t i = 0; i < result.quadrant_ur.size() && i < result.quadrant_ul.size(); ++i) {
-            auto part = result.quadrant_ur[i];
+        for (std::size_t i = 0; i < quadrant_ur.size() && i < quadrant_ul.size(); ++i) {
+            auto part = quadrant_ur[i];
             part.crop(0, x);
             part.reverse();
-            part.copy_to(result.quadrant_ul[i]);
+            part.copy_to(quadrant_ul[i]);
         }
-        for (std::size_t i = 0; i < result.quadrant_br.size() && i < result.quadrant_bl.size(); ++i) {
-            auto part = result.quadrant_br[i];
+        for (std::size_t i = 0; i < quadrant_br.size() && i < quadrant_bl.size(); ++i) {
+            auto part = quadrant_br[i];
             part.crop(0, x);
             part.reverse();
-            part.copy_to(result.quadrant_bl[i]);
+            part.copy_to(quadrant_bl[i]);
         }
 
         // 4. 右側の象限をnビット左シフトする
-        for (auto && row : result.quadrant_ur) {
+        for (auto && row : quadrant_ur) {
             row >>= x;
         }
-        for (auto && row : result.quadrant_br) {
+        for (auto && row : quadrant_br) {
             row >>= x;
         }
     }
@@ -217,7 +216,7 @@ matrix_type matrix_type::shift(int x, int y)
     } else if (y < 0) {
     }
 
-    return result;
+    return *this;
 }
 
 // vim: set ts=4 sw=4 et:

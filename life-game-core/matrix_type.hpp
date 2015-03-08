@@ -34,7 +34,7 @@ class matrix_type
         void set(int const& x, int const& y, bool const& value);
         void clear();
 
-        matrix_type shift(int x, int y);
+        matrix_type& shift(int x, int y);
 
         std::size_t width() const;
         std::size_t height() const;
