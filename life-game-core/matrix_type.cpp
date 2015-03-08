@@ -199,8 +199,66 @@ matrix_type& matrix_type::shift(int x, int y)
         }
     }
 
-    if (y > 0) {
-    } else if (y < 0) {
+    if (y != 0) {
+        // 垂直方向へシフトする
+
+        /*
+        * 下方向へのnビットシフトは次の手順で行われる:
+        *  1. 下側の象限の, 上端から, 下端からn行目までを, 下端にコピーする
+        *  2. 上側の象限の下側n行を下側の象限の上端にコピーする
+        *  3. 上側の象限の下側n行を削除する
+        * 上方向へのシフトは各手順の上下を反転させる.
+        *
+        * 実際には, 上側の象限の上端は配列の末尾側, 下端は配列の先頭側,
+        *           下側の象限の上端は配列の先頭側, 下端は配列の末尾側である.
+        * x軸をまたいだコピーは反転をともなう.
+        */
+
+        quadrant_type *front_left_ptr,
+                      *front_right_ptr,
+                      *back_left_ptr,
+                      *back_right_ptr;
+
+        if (y > 0) {
+            front_left_ptr  = &quadrant_bl;
+            front_right_ptr = &quadrant_br;
+            back_left_ptr   = &quadrant_ul;
+            back_right_ptr  = &quadrant_ur;
+        } else {
+            y = -y;
+            front_left_ptr  = &quadrant_ul;
+            front_right_ptr = &quadrant_ur;
+            back_left_ptr   = &quadrant_bl;
+            back_right_ptr  = &quadrant_br;
+        }
+
+        quadrant_type &front_left  = *front_left_ptr,
+                      &front_right = *front_right_ptr,
+                      &back_left   = *back_left_ptr,
+                      &back_right  = *back_right_ptr;
+
+        // 1. シフト方向側の象限の, シフト方向に対して反対側の端からy行目を, シフト方向側の端にコピーする
+        std::copy_backward(front_left.begin(),
+                           std::prev(front_left.end(), y + 1),
+                           std::prev(front_left.end()));
+        std::copy_backward(front_right.begin(),
+                           std::prev(front_right.end(), y + 1),
+                           std::prev(front_right.end()));
+
+        // 2. シフト方向に対して反対側の象限の, シフト方向側のy行を,
+        //    シフト方向側の象限の, シフト方向に対して反対側の端にコピーする
+        std::reverse_copy(back_left.begin(),
+                          std::next(back_left.begin(), y),
+                          front_left.begin());
+        std::reverse_copy(back_right.begin(),
+                          std::next(back_right.begin(), y),
+                          front_right.begin());
+
+        // 3. シフト方向に対して反対側の象限の, シフト方向側のn行を削除する
+        back_left.erase(back_left.begin(),
+                          std::next(back_left.begin(), y));
+        back_right.erase(back_right.begin(),
+                          std::next(back_right.begin(), y));
     }
 
     return *this;

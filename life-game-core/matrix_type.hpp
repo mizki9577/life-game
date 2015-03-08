@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <iomanip>
+#include <iterator>
 #include <functional>
 #include <vector>
 #include <set>
