@@ -138,4 +138,23 @@ BOOST_AUTO_TEST_CASE(matrix_type_right_shift)
     BOOST_CHECK_EQUAL(shifted, matrix.shift(2, 0));
 }
 
+BOOST_AUTO_TEST_CASE(matrix_type_left_shift)
+{
+    matrix_type matrix, shifted;
+
+    matrix.set(-2, -2,  true); matrix.set(-1, -2, false); matrix.set( 0, -2, false); matrix.set( 1, -2, false); matrix.set( 2, -2,  true);
+    matrix.set(-2, -1, false); matrix.set(-1, -1,  true); matrix.set( 0, -1, false); matrix.set( 1, -1,  true); matrix.set( 2, -1, false);
+    matrix.set(-2,  0, false); matrix.set(-1,  0, false); matrix.set( 0,  0,  true); matrix.set( 1,  0, false); matrix.set( 2,  0, false);
+    matrix.set(-2,  1, false); matrix.set(-1,  1,  true); matrix.set( 0,  1, false); matrix.set( 1,  1,  true); matrix.set( 2,  1, false);
+    matrix.set(-2,  2,  true); matrix.set(-1,  2, false); matrix.set( 0,  2, false); matrix.set( 1,  2, false); matrix.set( 2,  2,  true);
+
+    shifted.set(-2, -2, false); shifted.set(-1, -2, false); shifted.set( 0, -2,  true); shifted.set( 1, -2, false); shifted.set( 2, -2, false);
+    shifted.set(-2, -1, false); shifted.set(-1, -1,  true); shifted.set( 0, -1, false); shifted.set( 1, -1, false); shifted.set( 2, -1, false);
+    shifted.set(-2,  0,  true); shifted.set(-1,  0, false); shifted.set( 0,  0, false); shifted.set( 1,  0, false); shifted.set( 2,  0, false);
+    shifted.set(-2,  1, false); shifted.set(-1,  1,  true); shifted.set( 0,  1, false); shifted.set( 1,  1, false); shifted.set( 2,  1, false);
+    shifted.set(-2,  2, false); shifted.set(-1,  2, false); shifted.set( 0,  2,  true); shifted.set( 1,  2, false); shifted.set( 2,  2, false);
+
+    BOOST_CHECK_EQUAL(shifted, matrix.shift(-2, 0));
+}
+
 // vim: set ts=4 sw=4 et:
