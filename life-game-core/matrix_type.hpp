@@ -5,6 +5,7 @@
 #include <iomanip>
 #include <functional>
 #include <vector>
+#include <set>
 #include "my_dynamic_bitset.hpp"
 
 class matrix_type

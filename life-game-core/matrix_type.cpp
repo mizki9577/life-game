@@ -7,10 +7,22 @@ matrix_type::matrix_type()
 
 bool operator==(matrix_type const& lhs, matrix_type const& rhs)
 {
-    return    lhs.quadrant_br == rhs.quadrant_br
-           && lhs.quadrant_bl == rhs.quadrant_bl
-           && lhs.quadrant_ul == rhs.quadrant_ul
-           && lhs.quadrant_ur == rhs.quadrant_ur;
+    std::set<std::pair<int, int>> lhs_trues, rhs_trues;
+    for (int x = lhs.left(); x <= lhs.right(); ++x) {
+        for (int y = lhs.top(); y <= lhs.bottom(); ++y) {
+            if (lhs.get(x, y) == true) {
+                lhs_trues.insert({x, y});
+            }
+        }
+    }
+    for (int x = rhs.left(); x <= rhs.right(); ++x) {
+        for (int y = rhs.top(); y <= rhs.bottom(); ++y) {
+            if (rhs.get(x, y) == true) {
+                rhs_trues.insert({x, y});
+            }
+        }
+    }
+    return lhs_trues == rhs_trues;
 }
 
 matrix_type::coordinate_type matrix_type::convert_coordinate(int const& x, int const& y) const
