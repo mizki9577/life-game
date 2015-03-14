@@ -1,6 +1,7 @@
 #ifndef MATRIX_TYPE_HPP
 #define MATRIX_TYPE_HPP
 
+#include <cassert>
 #include <cstddef>
 #include <deque>
 #include <iomanip>
@@ -17,6 +18,7 @@ class matrix_type
         ~matrix_type() = default;
 
         friend bool operator==(matrix_type const& lhs, matrix_type const& rhs);
+        friend matrix_type operator&(matrix_type const& lhs, matrix_type const& rhs);
 
         bool get(int const& x, int const& y) const;
         void set(int const& x, int const& y, bool const& value);

@@ -194,4 +194,29 @@ BOOST_AUTO_TEST_CASE(matrix_type_left_shift)
     BOOST_CHECK_EQUAL(shifted, matrix.shift(-2, 0));
 }
 
+BOOST_AUTO_TEST_CASE(matrix_type_operator_and)
+{
+    matrix_type lhs, rhs, expected;
+
+    lhs.set(-2, -2,  true); lhs.set(-1, -2, false); lhs.set( 0, -2, false); lhs.set( 1, -2, false); lhs.set( 2, -2,  true);
+    lhs.set(-2, -1, false); lhs.set(-1, -1,  true); lhs.set( 0, -1, false); lhs.set( 1, -1,  true); lhs.set( 2, -1, false);
+    lhs.set(-2,  0, false); lhs.set(-1,  0, false); lhs.set( 0,  0,  true); lhs.set( 1,  0, false); lhs.set( 2,  0, false);
+    lhs.set(-2,  1, false); lhs.set(-1,  1,  true); lhs.set( 0,  1, false); lhs.set( 1,  1,  true); lhs.set( 2,  1, false);
+    lhs.set(-2,  2,  true); lhs.set(-1,  2, false); lhs.set( 0,  2, false); lhs.set( 1,  2, false); lhs.set( 2,  2,  true);
+
+    rhs.set(-2, -2,  true); rhs.set(-1, -2, false); rhs.set( 0, -2,  true); rhs.set( 1, -2, false); rhs.set( 2, -2,  true);
+    rhs.set(-2, -1,  true); rhs.set(-1, -1, false); rhs.set( 0, -1,  true); rhs.set( 1, -1, false); rhs.set( 2, -1,  true);
+    rhs.set(-2,  0,  true); rhs.set(-1,  0, false); rhs.set( 0,  0,  true); rhs.set( 1,  0, false); rhs.set( 2,  0,  true);
+    rhs.set(-2,  1,  true); rhs.set(-1,  1, false); rhs.set( 0,  1,  true); rhs.set( 1,  1, false); rhs.set( 2,  1,  true);
+    rhs.set(-2,  2,  true); rhs.set(-1,  2, false); rhs.set( 0,  2,  true); rhs.set( 1,  2, false); rhs.set( 2,  2,  true);
+
+    expected.set(-2, -2,  true); expected.set(-1, -2, false); expected.set( 0, -2, false); expected.set( 1, -2, false); expected.set( 2, -2,  true);
+    expected.set(-2, -1, false); expected.set(-1, -1, false); expected.set( 0, -1, false); expected.set( 1, -1, false); expected.set( 2, -1, false);
+    expected.set(-2,  0, false); expected.set(-1,  0, false); expected.set( 0,  0,  true); expected.set( 1,  0, false); expected.set( 2,  0, false);
+    expected.set(-2,  1, false); expected.set(-1,  1, false); expected.set( 0,  1, false); expected.set( 1,  1, false); expected.set( 2,  1, false);
+    expected.set(-2,  2,  true); expected.set(-1,  2, false); expected.set( 0,  2, false); expected.set( 1,  2, false); expected.set( 2,  2,  true);
+
+    BOOST_CHECK_EQUAL(lhs & rhs, expected);
+}
+
 // vim: set ts=4 sw=4 et:
