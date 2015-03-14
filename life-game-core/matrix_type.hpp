@@ -23,10 +23,13 @@ class matrix_type
         friend matrix_type operator^(matrix_type const& lhs, matrix_type const& rhs);
         friend matrix_type operator~(matrix_type const& rhs);
 
+        static void arrange_size(matrix_type& lhs, matrix_type& rhs);
+
         bool get(int const& x, int const& y) const;
         void set(int const& x, int const& y, bool const& value);
         void clear();
 
+        matrix_type& shift(int x, int y);
         matrix_type shifted(int x, int y);
 
         std::size_t width() const;
@@ -40,7 +43,6 @@ class matrix_type
         std::deque<my_dynamic_bitset<>> _matrix;
         std::size_t x_offset;
         std::size_t y_offset;
-
 };
 
 template <typename CharT, typename Traits>

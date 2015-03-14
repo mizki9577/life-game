@@ -292,4 +292,16 @@ BOOST_AUTO_TEST_CASE(matrix_type_operator_flip)
     BOOST_CHECK_EQUAL(~rhs, expected);
 }
 
+BOOST_AUTO_TEST_CASE(matrix_type_arrange_size)
+{
+    matrix_type lhs, rhs;
+
+    lhs.set(-3, -3, true);
+    lhs.set( 3,  3, true);
+    rhs.set(-1, -1, true);
+    rhs.set( 5,  5, true);
+
+    matrix_type::arrange_size(lhs, rhs);
+}
+
 // vim: set ts=4 sw=4 et:

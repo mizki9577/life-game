@@ -77,6 +77,43 @@ matrix_type operator~(matrix_type const& rhs)
     return result;
 }
 
+void matrix_type::arrange_size(matrix_type& lhs, matrix_type& rhs)
+{
+    if (lhs.x_offset > rhs.x_offset) {
+        rhs.shift(lhs.x_offset - rhs.x_offset, 0);
+        rhs.x_offset = lhs.x_offset;
+    } else if (lhs.x_offset < rhs.x_offset) {
+        lhs.shift(lhs.x_offset - rhs.x_offset, 0);
+    }
+
+    if (lhs.y_offset > rhs.y_offset) {
+        rhs.shift(0, lhs.y_offset - rhs.y_offset);
+        rhs.y_offset = lhs.y_offset;
+    } else if (lhs.y_offset < rhs.y_offset) {
+        lhs.shift(0, lhs.y_offset - rhs.y_offset);
+    }
+
+    if (lhs.height() > rhs.height()) {
+        std::fill_n(std::back_inserter(rhs._matrix),
+                    lhs.height() - rhs.height(),
+                    my_dynamic_bitset<>(rhs.width()));
+    } else if (lhs.height() < rhs.height()) {
+        std::fill_n(std::back_inserter(lhs._matrix),
+                    rhs.height() - lhs.height(),
+                    my_dynamic_bitset<>(lhs.width()));
+    }
+
+    if (lhs.width() > rhs.width()) {
+        for (auto && row : rhs._matrix) {
+            row.resize(lhs.width());
+        }
+    } else if (lhs.width() < rhs.width()) {
+        for (auto && row : lhs._matrix) {
+            row.resize(rhs.width());
+        }
+    }
+}
+
 bool matrix_type::get(int const& x, int const& y) const
 {
     std::size_t rx = x + x_offset,
@@ -163,20 +200,18 @@ int matrix_type::right() const
     return width() - x_offset - 1;
 }
 
-matrix_type matrix_type::shifted(int x, int y)
+matrix_type& matrix_type::shift(int x, int y)
 {
-    auto result = *this;
-
     if (x < 0) {
         // 左にシフトする
         x = -x;
-        for (auto && row : result._matrix) {
+        for (auto && row : _matrix) {
             row.resize(row.size() + x);
         }
-        result.x_offset += x;
+        x_offset += x;
     } else if (x > 0) {
         // 右にシフトする
-        for (auto && row : result._matrix) {
+        for (auto && row : _matrix) {
             row.resize(row.size() + x);
             row <<= x;
         }
@@ -185,17 +220,24 @@ matrix_type matrix_type::shifted(int x, int y)
     if (y < 0) {
         // 上にシフトする
         y = -y;
-        std::fill_n(std::back_inserter(result._matrix),
+        std::fill_n(std::back_inserter(_matrix),
                     y,
-                    my_dynamic_bitset<>(result.width()));
-        result.y_offset += y;
+                    my_dynamic_bitset<>(width()));
+        y_offset += y;
     } else if (y > 0) {
         // 下にシフトする
-        std::fill_n(std::front_inserter(result._matrix),
+        std::fill_n(std::front_inserter(_matrix),
                     y,
-                    my_dynamic_bitset<>(result.width()));
+                    my_dynamic_bitset<>(width()));
     }
 
+    return *this;
+}
+
+matrix_type matrix_type::shifted(int x, int y)
+{
+    auto result = *this;
+    result.shift(x, y);
     return result;
 }
 
