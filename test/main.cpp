@@ -120,7 +120,7 @@ BOOST_AUTO_TEST_CASE(my_dynamic_bitset_copy_to)
 
 BOOST_AUTO_TEST_CASE(matrix_type_up_shift)
 {
-    matrix_type matrix, shifted;
+    matrix_type matrix, expected;
 
     matrix.set(-2, -2,  true); matrix.set(-1, -2, false); matrix.set( 0, -2, false); matrix.set( 1, -2, false); matrix.set( 2, -2,  true);
     matrix.set(-2, -1, false); matrix.set(-1, -1,  true); matrix.set( 0, -1, false); matrix.set( 1, -1,  true); matrix.set( 2, -1, false);
@@ -128,18 +128,20 @@ BOOST_AUTO_TEST_CASE(matrix_type_up_shift)
     matrix.set(-2,  1, false); matrix.set(-1,  1,  true); matrix.set( 0,  1, false); matrix.set( 1,  1,  true); matrix.set( 2,  1, false);
     matrix.set(-2,  2,  true); matrix.set(-1,  2, false); matrix.set( 0,  2, false); matrix.set( 1,  2, false); matrix.set( 2,  2,  true);
 
-    shifted.set(-2, -2, false); shifted.set(-1, -2, false); shifted.set( 0, -2,  true); shifted.set( 1, -2, false); shifted.set( 2, -2, false);
-    shifted.set(-2, -1, false); shifted.set(-1, -1,  true); shifted.set( 0, -1, false); shifted.set( 1, -1,  true); shifted.set( 2, -1, false);
-    shifted.set(-2,  0,  true); shifted.set(-1,  0, false); shifted.set( 0,  0, false); shifted.set( 1,  0, false); shifted.set( 2,  0,  true);
-    shifted.set(-2,  1, false); shifted.set(-1,  1, false); shifted.set( 0,  1, false); shifted.set( 1,  1, false); shifted.set( 2,  1, false);
-    shifted.set(-2,  2, false); shifted.set(-1,  2, false); shifted.set( 0,  2, false); shifted.set( 1,  2, false); shifted.set( 2,  2, false);
+    expected.set(-2, -4,  true); expected.set(-1, -4, false); expected.set( 0, -4, false); expected.set( 1, -4, false); expected.set( 2, -4,  true);
+    expected.set(-2, -3, false); expected.set(-1, -3,  true); expected.set( 0, -3, false); expected.set( 1, -3,  true); expected.set( 2, -3, false);
+    expected.set(-2, -2, false); expected.set(-1, -2, false); expected.set( 0, -2,  true); expected.set( 1, -2, false); expected.set( 2, -2, false);
+    expected.set(-2, -1, false); expected.set(-1, -1,  true); expected.set( 0, -1, false); expected.set( 1, -1,  true); expected.set( 2, -1, false);
+    expected.set(-2,  0,  true); expected.set(-1,  0, false); expected.set( 0,  0, false); expected.set( 1,  0, false); expected.set( 2,  0,  true);
+    expected.set(-2,  1, false); expected.set(-1,  1, false); expected.set( 0,  1, false); expected.set( 1,  1, false); expected.set( 2,  1, false);
+    expected.set(-2,  2, false); expected.set(-1,  2, false); expected.set( 0,  2, false); expected.set( 1,  2, false); expected.set( 2,  2, false);
 
-    BOOST_CHECK_EQUAL(shifted, matrix.shifted(0, -2));
+    BOOST_CHECK_EQUAL(expected, matrix.shifted(0, -2));
 }
 
 BOOST_AUTO_TEST_CASE(matrix_type_right_shift)
 {
-    matrix_type matrix, shifted;
+    matrix_type matrix, expected;
 
     matrix.set(-2, -2,  true); matrix.set(-1, -2, false); matrix.set( 0, -2, false); matrix.set( 1, -2, false); matrix.set( 2, -2,  true);
     matrix.set(-2, -1, false); matrix.set(-1, -1,  true); matrix.set( 0, -1, false); matrix.set( 1, -1,  true); matrix.set( 2, -1, false);
@@ -147,18 +149,18 @@ BOOST_AUTO_TEST_CASE(matrix_type_right_shift)
     matrix.set(-2,  1, false); matrix.set(-1,  1,  true); matrix.set( 0,  1, false); matrix.set( 1,  1,  true); matrix.set( 2,  1, false);
     matrix.set(-2,  2,  true); matrix.set(-1,  2, false); matrix.set( 0,  2, false); matrix.set( 1,  2, false); matrix.set( 2,  2,  true);
 
-    shifted.set(-2, -2, false); shifted.set(-1, -2, false); shifted.set( 0, -2,  true); shifted.set( 1, -2, false); shifted.set( 2, -2, false);
-    shifted.set(-2, -1, false); shifted.set(-1, -1, false); shifted.set( 0, -1, false); shifted.set( 1, -1,  true); shifted.set( 2, -1, false);
-    shifted.set(-2,  0, false); shifted.set(-1,  0, false); shifted.set( 0,  0, false); shifted.set( 1,  0, false); shifted.set( 2,  0,  true);
-    shifted.set(-2,  1, false); shifted.set(-1,  1, false); shifted.set( 0,  1, false); shifted.set( 1,  1,  true); shifted.set( 2,  1, false);
-    shifted.set(-2,  2, false); shifted.set(-1,  2, false); shifted.set( 0,  2,  true); shifted.set( 1,  2, false); shifted.set( 2,  2, false);
+    expected.set(-2, -2, false); expected.set(-1, -2, false); expected.set( 0, -2,  true); expected.set( 1, -2, false); expected.set( 2, -2, false); expected.set( 3, -2, false); expected.set( 4, -2,  true);
+    expected.set(-2, -1, false); expected.set(-1, -1, false); expected.set( 0, -1, false); expected.set( 1, -1,  true); expected.set( 2, -1, false); expected.set( 3, -1,  true); expected.set( 4, -1, false);
+    expected.set(-2,  0, false); expected.set(-1,  0, false); expected.set( 0,  0, false); expected.set( 1,  0, false); expected.set( 2,  0,  true); expected.set( 3,  0, false); expected.set( 4,  0, false);
+    expected.set(-2,  1, false); expected.set(-1,  1, false); expected.set( 0,  1, false); expected.set( 1,  1,  true); expected.set( 2,  1, false); expected.set( 3,  1,  true); expected.set( 4,  1, false);
+    expected.set(-2,  2, false); expected.set(-1,  2, false); expected.set( 0,  2,  true); expected.set( 1,  2, false); expected.set( 2,  2, false); expected.set( 3,  2, false); expected.set( 4,  2,  true);
 
-    BOOST_CHECK_EQUAL(shifted, matrix.shifted(2, 0));
+    BOOST_CHECK_EQUAL(matrix.shifted(2, 0), expected);
 }
 
 BOOST_AUTO_TEST_CASE(matrix_type_down_shift)
 {
-    matrix_type matrix, shifted;
+    matrix_type matrix, expected;
 
     matrix.set(-2, -2,  true); matrix.set(-1, -2, false); matrix.set( 0, -2, false); matrix.set( 1, -2, false); matrix.set( 2, -2,  true);
     matrix.set(-2, -1, false); matrix.set(-1, -1,  true); matrix.set( 0, -1, false); matrix.set( 1, -1,  true); matrix.set( 2, -1, false);
@@ -166,18 +168,20 @@ BOOST_AUTO_TEST_CASE(matrix_type_down_shift)
     matrix.set(-2,  1, false); matrix.set(-1,  1,  true); matrix.set( 0,  1, false); matrix.set( 1,  1,  true); matrix.set( 2,  1, false);
     matrix.set(-2,  2,  true); matrix.set(-1,  2, false); matrix.set( 0,  2, false); matrix.set( 1,  2, false); matrix.set( 2,  2,  true);
 
-    shifted.set(-2, -2, false); shifted.set(-1, -2, false); shifted.set( 0, -2, false); shifted.set( 1, -2, false); shifted.set( 2, -2, false);
-    shifted.set(-2, -1, false); shifted.set(-1, -1, false); shifted.set( 0, -1, false); shifted.set( 1, -1, false); shifted.set( 2, -1, false);
-    shifted.set(-2,  0,  true); shifted.set(-1,  0, false); shifted.set( 0,  0, false); shifted.set( 1,  0, false); shifted.set( 2,  0,  true);
-    shifted.set(-2,  1, false); shifted.set(-1,  1,  true); shifted.set( 0,  1, false); shifted.set( 1,  1,  true); shifted.set( 2,  1, false);
-    shifted.set(-2,  2, false); shifted.set(-1,  2, false); shifted.set( 0,  2,  true); shifted.set( 1,  2, false); shifted.set( 2,  2, false);
+    expected.set(-2, -2, false); expected.set(-1, -2, false); expected.set( 0, -2, false); expected.set( 1, -2, false); expected.set( 2, -2, false);
+    expected.set(-2, -1, false); expected.set(-1, -1, false); expected.set( 0, -1, false); expected.set( 1, -1, false); expected.set( 2, -1, false);
+    expected.set(-2,  0,  true); expected.set(-1,  0, false); expected.set( 0,  0, false); expected.set( 1,  0, false); expected.set( 2,  0,  true);
+    expected.set(-2,  1, false); expected.set(-1,  1,  true); expected.set( 0,  1, false); expected.set( 1,  1,  true); expected.set( 2,  1, false);
+    expected.set(-2,  2, false); expected.set(-1,  2, false); expected.set( 0,  2,  true); expected.set( 1,  2, false); expected.set( 2,  2, false);
+    expected.set(-2,  3, false); expected.set(-1,  3,  true); expected.set( 0,  3, false); expected.set( 1,  3,  true); expected.set( 2,  3, false);
+    expected.set(-2,  4,  true); expected.set(-1,  4, false); expected.set( 0,  4, false); expected.set( 1,  4, false); expected.set( 2,  4,  true);
 
-    BOOST_CHECK_EQUAL(shifted, matrix.shifted(0, 2));
+    BOOST_CHECK_EQUAL(expected, matrix.shifted(0, 2));
 }
 
 BOOST_AUTO_TEST_CASE(matrix_type_left_shift)
 {
-    matrix_type matrix, shifted;
+    matrix_type matrix, expected;
 
     matrix.set(-2, -2,  true); matrix.set(-1, -2, false); matrix.set( 0, -2, false); matrix.set( 1, -2, false); matrix.set( 2, -2,  true);
     matrix.set(-2, -1, false); matrix.set(-1, -1,  true); matrix.set( 0, -1, false); matrix.set( 1, -1,  true); matrix.set( 2, -1, false);
@@ -185,13 +189,13 @@ BOOST_AUTO_TEST_CASE(matrix_type_left_shift)
     matrix.set(-2,  1, false); matrix.set(-1,  1,  true); matrix.set( 0,  1, false); matrix.set( 1,  1,  true); matrix.set( 2,  1, false);
     matrix.set(-2,  2,  true); matrix.set(-1,  2, false); matrix.set( 0,  2, false); matrix.set( 1,  2, false); matrix.set( 2,  2,  true);
 
-    shifted.set(-2, -2, false); shifted.set(-1, -2, false); shifted.set( 0, -2,  true); shifted.set( 1, -2, false); shifted.set( 2, -2, false);
-    shifted.set(-2, -1, false); shifted.set(-1, -1,  true); shifted.set( 0, -1, false); shifted.set( 1, -1, false); shifted.set( 2, -1, false);
-    shifted.set(-2,  0,  true); shifted.set(-1,  0, false); shifted.set( 0,  0, false); shifted.set( 1,  0, false); shifted.set( 2,  0, false);
-    shifted.set(-2,  1, false); shifted.set(-1,  1,  true); shifted.set( 0,  1, false); shifted.set( 1,  1, false); shifted.set( 2,  1, false);
-    shifted.set(-2,  2, false); shifted.set(-1,  2, false); shifted.set( 0,  2,  true); shifted.set( 1,  2, false); shifted.set( 2,  2, false);
+    expected.set(-4, -2,  true); expected.set(-3, -2, false); expected.set(-2, -2, false); expected.set(-1, -2, false); expected.set( 0, -2,  true); expected.set( 1, -2, false); expected.set( 2, -2, false);
+    expected.set(-4, -1, false); expected.set(-3, -1,  true); expected.set(-2, -1, false); expected.set(-1, -1,  true); expected.set( 0, -1, false); expected.set( 1, -1, false); expected.set( 2, -1, false);
+    expected.set(-4,  0, false); expected.set(-3,  0, false); expected.set(-2,  0,  true); expected.set(-1,  0, false); expected.set( 0,  0, false); expected.set( 1,  0, false); expected.set( 2,  0, false);
+    expected.set(-4,  1, false); expected.set(-3,  1,  true); expected.set(-2,  1, false); expected.set(-1,  1,  true); expected.set( 0,  1, false); expected.set( 1,  1, false); expected.set( 2,  1, false);
+    expected.set(-4,  2,  true); expected.set(-3,  2, false); expected.set(-2,  2, false); expected.set(-1,  2, false); expected.set( 0,  2,  true); expected.set( 1,  2, false); expected.set( 2,  2, false);
 
-    BOOST_CHECK_EQUAL(shifted, matrix.shifted(-2, 0));
+    BOOST_CHECK_EQUAL(expected, matrix.shifted(-2, 0));
 }
 
 BOOST_AUTO_TEST_CASE(matrix_type_operator_and)

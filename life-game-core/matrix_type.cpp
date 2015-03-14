@@ -8,7 +8,7 @@ matrix_type::matrix_type()
 
 bool operator==(matrix_type const& lhs, matrix_type const& rhs)
 {
-    return lhs._matrix == rhs._matrix;
+    return lhs._matrix == rhs._matrix && lhs.x_offset == rhs.x_offset && lhs.y_offset == rhs.y_offset;
 }
 
 matrix_type operator&(matrix_type const& lhs, matrix_type const& rhs)
@@ -171,11 +171,13 @@ matrix_type matrix_type::shifted(int x, int y)
         // 左にシフトする
         x = -x;
         for (auto && row : result._matrix) {
-            row >>= x;
+            row.resize(row.size() + x);
         }
+        result.x_offset += x;
     } else if (x > 0) {
         // 右にシフトする
         for (auto && row : result._matrix) {
+            row.resize(row.size() + x);
             row <<= x;
         }
     }
@@ -183,38 +185,15 @@ matrix_type matrix_type::shifted(int x, int y)
     if (y < 0) {
         // 上にシフトする
         y = -y;
-
-        // コピーする方法
-        std::copy(std::next(result._matrix.begin(), y),
-                  result._matrix.end(),
-                  result._matrix.begin());
-        std::fill(std::prev(result._matrix.end(), y),
-                  result._matrix.end(),
-                  my_dynamic_bitset<>(result.width()));
-
-        // 追加削除する方法
-        /*
-        result._matrix.erase(result._matrix.begin(),
-                             std::next(result._matrix.begin(), y + 1));
-        result._matrix.emplace_back(result.width());
-        */
+        std::fill_n(std::back_inserter(result._matrix),
+                    y,
+                    my_dynamic_bitset<>(result.width()));
+        result.y_offset += y;
     } else if (y > 0) {
         // 下にシフトする
-
-        // コピーする方法
-        std::copy_backward(result._matrix.begin(),
-                           std::prev(result._matrix.end(), y),
-                           result._matrix.end());
-        std::fill(result._matrix.begin(),
-                  std::next(result._matrix.begin(), y),
-                  my_dynamic_bitset<>(result.width()));
-
-        /*
-        // 追加削除する方法
-        result._matrix.erase(std::prev(result._matrix.end(), y + 1),
-                             result._matrix.end());
-        result._matrix.emplace_front(result.width());
-        */
+        std::fill_n(std::front_inserter(result._matrix),
+                    y,
+                    my_dynamic_bitset<>(result.width()));
     }
 
     return result;
