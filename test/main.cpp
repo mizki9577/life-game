@@ -134,7 +134,7 @@ BOOST_AUTO_TEST_CASE(matrix_type_up_shift)
     shifted.set(-2,  1, false); shifted.set(-1,  1, false); shifted.set( 0,  1, false); shifted.set( 1,  1, false); shifted.set( 2,  1, false);
     shifted.set(-2,  2, false); shifted.set(-1,  2, false); shifted.set( 0,  2, false); shifted.set( 1,  2, false); shifted.set( 2,  2, false);
 
-    BOOST_CHECK_EQUAL(shifted, matrix.shift(0, -2));
+    BOOST_CHECK_EQUAL(shifted, matrix.shifted(0, -2));
 }
 
 BOOST_AUTO_TEST_CASE(matrix_type_right_shift)
@@ -153,7 +153,7 @@ BOOST_AUTO_TEST_CASE(matrix_type_right_shift)
     shifted.set(-2,  1, false); shifted.set(-1,  1, false); shifted.set( 0,  1, false); shifted.set( 1,  1,  true); shifted.set( 2,  1, false);
     shifted.set(-2,  2, false); shifted.set(-1,  2, false); shifted.set( 0,  2,  true); shifted.set( 1,  2, false); shifted.set( 2,  2, false);
 
-    BOOST_CHECK_EQUAL(shifted, matrix.shift(2, 0));
+    BOOST_CHECK_EQUAL(shifted, matrix.shifted(2, 0));
 }
 
 BOOST_AUTO_TEST_CASE(matrix_type_down_shift)
@@ -172,7 +172,7 @@ BOOST_AUTO_TEST_CASE(matrix_type_down_shift)
     shifted.set(-2,  1, false); shifted.set(-1,  1,  true); shifted.set( 0,  1, false); shifted.set( 1,  1,  true); shifted.set( 2,  1, false);
     shifted.set(-2,  2, false); shifted.set(-1,  2, false); shifted.set( 0,  2,  true); shifted.set( 1,  2, false); shifted.set( 2,  2, false);
 
-    BOOST_CHECK_EQUAL(shifted, matrix.shift(0, 2));
+    BOOST_CHECK_EQUAL(shifted, matrix.shifted(0, 2));
 }
 
 BOOST_AUTO_TEST_CASE(matrix_type_left_shift)
@@ -191,7 +191,7 @@ BOOST_AUTO_TEST_CASE(matrix_type_left_shift)
     shifted.set(-2,  1, false); shifted.set(-1,  1,  true); shifted.set( 0,  1, false); shifted.set( 1,  1, false); shifted.set( 2,  1, false);
     shifted.set(-2,  2, false); shifted.set(-1,  2, false); shifted.set( 0,  2,  true); shifted.set( 1,  2, false); shifted.set( 2,  2, false);
 
-    BOOST_CHECK_EQUAL(shifted, matrix.shift(-2, 0));
+    BOOST_CHECK_EQUAL(shifted, matrix.shifted(-2, 0));
 }
 
 BOOST_AUTO_TEST_CASE(matrix_type_operator_and)

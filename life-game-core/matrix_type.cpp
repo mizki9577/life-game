@@ -163,17 +163,19 @@ int matrix_type::right() const
     return width() - x_offset - 1;
 }
 
-matrix_type& matrix_type::shift(int x, int y)
+matrix_type matrix_type::shifted(int x, int y)
 {
+    auto result = *this;
+
     if (x < 0) {
         // 左にシフトする
         x = -x;
-        for (auto && row : _matrix) {
+        for (auto && row : result._matrix) {
             row >>= x;
         }
     } else if (x > 0) {
         // 右にシフトする
-        for (auto && row : _matrix) {
+        for (auto && row : result._matrix) {
             row <<= x;
         }
     }
@@ -183,39 +185,39 @@ matrix_type& matrix_type::shift(int x, int y)
         y = -y;
 
         // コピーする方法
-        std::copy(std::next(_matrix.begin(), y),
-                  _matrix.end(),
-                  _matrix.begin());
-        std::fill(std::prev(_matrix.end(), y),
-                  _matrix.end(),
-                  my_dynamic_bitset<>(width()));
+        std::copy(std::next(result._matrix.begin(), y),
+                  result._matrix.end(),
+                  result._matrix.begin());
+        std::fill(std::prev(result._matrix.end(), y),
+                  result._matrix.end(),
+                  my_dynamic_bitset<>(result.width()));
 
         // 追加削除する方法
         /*
-        _matrix.erase(_matrix.begin(),
-                      std::next(_matrix.begin(), y + 1));
-        _matrix.emplace_back(width());
+        result._matrix.erase(result._matrix.begin(),
+                             std::next(result._matrix.begin(), y + 1));
+        result._matrix.emplace_back(result.width());
         */
     } else if (y > 0) {
         // 下にシフトする
 
         // コピーする方法
-        std::copy_backward(_matrix.begin(),
-                           std::prev(_matrix.end(), y),
-                           _matrix.end());
-        std::fill(_matrix.begin(),
-                  std::next(_matrix.begin(), y),
-                  my_dynamic_bitset<>(width()));
+        std::copy_backward(result._matrix.begin(),
+                           std::prev(result._matrix.end(), y),
+                           result._matrix.end());
+        std::fill(result._matrix.begin(),
+                  std::next(result._matrix.begin(), y),
+                  my_dynamic_bitset<>(result.width()));
 
         /*
         // 追加削除する方法
-        _matrix.erase(std::prev(_matrix.end(), y + 1),
-                      _matrix.end());
-        _matrix.emplace_front(width());
+        result._matrix.erase(std::prev(result._matrix.end(), y + 1),
+                             result._matrix.end());
+        result._matrix.emplace_front(result.width());
         */
     }
 
-    return *this;
+    return result;
 }
 
 // vim: set ts=4 sw=4 et:
