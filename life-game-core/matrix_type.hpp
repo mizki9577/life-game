@@ -20,6 +20,7 @@ class matrix_type
         friend bool operator==(matrix_type const& lhs, matrix_type const& rhs);
         friend matrix_type operator&(matrix_type const& lhs, matrix_type const& rhs);
         friend matrix_type operator|(matrix_type const& lhs, matrix_type const& rhs);
+        friend matrix_type operator^(matrix_type const& lhs, matrix_type const& rhs);
         friend matrix_type operator~(matrix_type const& rhs);
 
         bool get(int const& x, int const& y) const;
