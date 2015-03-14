@@ -29,6 +29,24 @@ matrix_type operator&(matrix_type const& lhs, matrix_type const& rhs)
     return result;
 }
 
+matrix_type operator|(matrix_type const& lhs, matrix_type const& rhs)
+{
+    assert(lhs.width() == rhs.width());
+    assert(lhs.height() == rhs.height());
+
+    auto result = lhs;
+
+    auto rhs_row = rhs._matrix.begin();
+    auto result_row = result._matrix.begin();
+    while (result_row != result._matrix.end()) {
+        *result_row |= *rhs_row;
+        std::advance(rhs_row, 1);
+        std::advance(result_row, 1);
+    }
+
+    return result;
+}
+
 bool matrix_type::get(int const& x, int const& y) const
 {
     std::size_t rx = x + x_offset,
