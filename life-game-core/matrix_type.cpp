@@ -11,58 +11,49 @@ bool operator==(matrix_type const& lhs, matrix_type const& rhs)
     return lhs._matrix == rhs._matrix && lhs.x_offset == rhs.x_offset && lhs.y_offset == rhs.y_offset;
 }
 
-matrix_type operator&(matrix_type const& lhs, matrix_type const& rhs)
+matrix_type operator&(matrix_type lhs, matrix_type rhs)
 {
-    assert(lhs.width() == rhs.width());
-    assert(lhs.height() == rhs.height());
+    matrix_type::arrange_size(lhs, rhs);
 
-    auto result = lhs;
-
+    auto lhs_row = lhs._matrix.begin();
     auto rhs_row = rhs._matrix.begin();
-    auto result_row = result._matrix.begin();
-    while (result_row != result._matrix.end()) {
-        *result_row &= *rhs_row;
+    while (lhs_row != lhs._matrix.end()) {
+        *lhs_row &= *rhs_row;
         std::advance(rhs_row, 1);
-        std::advance(result_row, 1);
+        std::advance(lhs_row, 1);
     }
 
-    return result;
+    return lhs;
 }
 
-matrix_type operator|(matrix_type const& lhs, matrix_type const& rhs)
+matrix_type operator|(matrix_type lhs, matrix_type rhs)
 {
-    assert(lhs.width() == rhs.width());
-    assert(lhs.height() == rhs.height());
+    matrix_type::arrange_size(lhs, rhs);
 
-    auto result = lhs;
-
+    auto lhs_row = lhs._matrix.begin();
     auto rhs_row = rhs._matrix.begin();
-    auto result_row = result._matrix.begin();
-    while (result_row != result._matrix.end()) {
-        *result_row |= *rhs_row;
+    while (lhs_row != lhs._matrix.end()) {
+        *lhs_row |= *rhs_row;
         std::advance(rhs_row, 1);
-        std::advance(result_row, 1);
+        std::advance(lhs_row, 1);
     }
 
-    return result;
+    return lhs;
 }
 
-matrix_type operator^(matrix_type const& lhs, matrix_type const& rhs)
+matrix_type operator^(matrix_type lhs, matrix_type rhs)
 {
-    assert(lhs.width() == rhs.width());
-    assert(lhs.height() == rhs.height());
+    matrix_type::arrange_size(lhs, rhs);
 
-    auto result = lhs;
-
+    auto lhs_row = lhs._matrix.begin();
     auto rhs_row = rhs._matrix.begin();
-    auto result_row = result._matrix.begin();
-    while (result_row != result._matrix.end()) {
-        *result_row ^= *rhs_row;
+    while (lhs_row != lhs._matrix.end()) {
+        *lhs_row ^= *rhs_row;
         std::advance(rhs_row, 1);
-        std::advance(result_row, 1);
+        std::advance(lhs_row, 1);
     }
 
-    return result;
+    return lhs;
 }
 
 

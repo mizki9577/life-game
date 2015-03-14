@@ -18,9 +18,9 @@ class matrix_type
         ~matrix_type() = default;
 
         friend bool operator==(matrix_type const& lhs, matrix_type const& rhs);
-        friend matrix_type operator&(matrix_type const& lhs, matrix_type const& rhs);
-        friend matrix_type operator|(matrix_type const& lhs, matrix_type const& rhs);
-        friend matrix_type operator^(matrix_type const& lhs, matrix_type const& rhs);
+        friend matrix_type operator&(matrix_type lhs, matrix_type rhs);
+        friend matrix_type operator|(matrix_type lhs, matrix_type rhs);
+        friend matrix_type operator^(matrix_type lhs, matrix_type rhs);
         friend matrix_type operator~(matrix_type const& rhs);
 
         static void arrange_size(matrix_type& lhs, matrix_type& rhs);
