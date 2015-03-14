@@ -8,25 +8,7 @@ matrix_type::matrix_type()
 
 bool operator==(matrix_type const& lhs, matrix_type const& rhs)
 {
-    std::set<std::pair<int, int>> lhs_trues, rhs_trues;
-
-    for (int x = lhs.left(); x <= lhs.right(); ++x) {
-        for (int y = lhs.top(); y <= lhs.bottom(); ++y) {
-            if (lhs.get(x, y) == true) {
-                lhs_trues.insert({x, y});
-            }
-        }
-    }
-
-    for (int x = rhs.left(); x <= rhs.right(); ++x) {
-        for (int y = rhs.top(); y <= rhs.bottom(); ++y) {
-            if (rhs.get(x, y) == true) {
-                rhs_trues.insert({x, y});
-            }
-        }
-    }
-
-    return lhs_trues == rhs_trues;
+    return lhs._matrix == rhs._matrix;
 }
 
 bool matrix_type::get(int const& x, int const& y) const
@@ -46,39 +28,36 @@ void matrix_type::set(int const& x, int const& y, bool const& value)
     int rx = x + x_offset;
     int ry = y + y_offset;
 
-    if (value == true) {
-        if (ry < 0) {
-            // 上に拡張する
-            std::fill_n(std::front_inserter(_matrix),
-                        -ry,
-                        my_dynamic_bitset<>(width()));
-            y_offset = -y;
-        } else if (ry >= static_cast<int>(height())) {
-            // 下に拡張する
-            _matrix.resize(ry + 1, my_dynamic_bitset<>(width()));
-        }
-
-        if (rx < 0) {
-            // 左に拡張する
-            for (auto && row : _matrix) {
-                row.resize(row.size() + -rx);
-                row <<= -rx;
-            }
-            x_offset = -x;
-        } else if (rx >= static_cast<int>(width())) {
-            // 右に拡張する
-            for (auto && row : _matrix) {
-                row.resize(rx + 1);
-            }
-        }
-
-        rx = x + static_cast<int>(x_offset);
-        ry = y + static_cast<int>(y_offset);
+    if (ry < 0) {
+        // 上に拡張する
+        std::fill_n(std::front_inserter(_matrix),
+                    -ry,
+                    my_dynamic_bitset<>(width()));
+        y_offset = -y;
+        ry = 0;
+    } else if (ry >= static_cast<int>(height())) {
+        // 下に拡張する
+        _matrix.resize(ry + 1, my_dynamic_bitset<>(width()));
     }
 
-    if (value == true || (rx < static_cast<int>(width()) &&
-                          ry < static_cast<int>(height()) &&
-                          rx >= 0 && ry >= 0)) {
+    if (rx < 0) {
+        // 左に拡張する
+        for (auto && row : _matrix) {
+            row.resize(row.size() + -rx);
+            row <<= -rx;
+        }
+        x_offset = -x;
+        rx = 0;
+    } else if (rx >= static_cast<int>(width())) {
+        // 右に拡張する
+        for (auto && row : _matrix) {
+            row.resize(rx + 1);
+        }
+    }
+
+    if (rx < static_cast<int>(width()) &&
+        ry < static_cast<int>(height()) &&
+        rx >= 0 && ry >= 0) {
         _matrix.at(ry).set(rx, value);
     }
 }

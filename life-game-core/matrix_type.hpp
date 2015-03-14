@@ -6,7 +6,6 @@
 #include <iomanip>
 #include <iostream>
 #include <iterator>
-#include <set>
 #include <utility>
 #include "my_dynamic_bitset.hpp"
 

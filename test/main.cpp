@@ -11,11 +11,6 @@ BOOST_AUTO_TEST_CASE(matrix_type_dynamic_allocate)
     BOOST_CHECK_EQUAL(matrix.width(), 0);
     BOOST_CHECK_EQUAL(matrix.height(), 0);
 
-    // 未確保領域を false にセットしても確保しない
-    matrix.set(10, 10, false);
-    BOOST_CHECK_EQUAL(matrix.width(), 0);
-    BOOST_CHECK_EQUAL(matrix.height(), 0);
-
     // 未確保領域を true にセットしたときは確保する
     matrix.set(10, 10, true);
     BOOST_CHECK_EQUAL(matrix.width(), 11);
