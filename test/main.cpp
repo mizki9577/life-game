@@ -70,20 +70,32 @@ BOOST_AUTO_TEST_CASE(life_game_rpentomino)
     game.set(1, 2, true);
     game.set(2, 0, true);
     game.next();
-    BOOST_CHECK_EQUAL(game.get(0, 0), true);
-    BOOST_CHECK_EQUAL(game.get(0, 1), true);
-    BOOST_CHECK_EQUAL(game.get(0, 2), true);
-    BOOST_CHECK_EQUAL(game.get(1, 0), true);
-    BOOST_CHECK_EQUAL(game.get(1, 2), true);
-    BOOST_CHECK_EQUAL(game.get(2, 0), true);
+    BOOST_CHECK_EQUAL(game.get(0, 0),  true);
+    BOOST_CHECK_EQUAL(game.get(0, 1),  true);
+    BOOST_CHECK_EQUAL(game.get(0, 2),  true);
+    BOOST_CHECK_EQUAL(game.get(1, 0),  true);
+    BOOST_CHECK_EQUAL(game.get(1, 1), false);
+    BOOST_CHECK_EQUAL(game.get(1, 2),  true);
+    BOOST_CHECK_EQUAL(game.get(2, 0),  true);
+    BOOST_CHECK_EQUAL(game.get(2, 1), false);
+    BOOST_CHECK_EQUAL(game.get(2, 2), false);
     game.next();
-    BOOST_CHECK_EQUAL(game.get(-1, 1), true);
-    BOOST_CHECK_EQUAL(game.get(0, 0), true);
-    BOOST_CHECK_EQUAL(game.get(0, 2), true);
-    BOOST_CHECK_EQUAL(game.get(1, -1), true);
-    BOOST_CHECK_EQUAL(game.get(1, 0), true);
-    BOOST_CHECK_EQUAL(game.get(1, 2), true);
-    BOOST_CHECK_EQUAL(game.get(2, 1), true);
+    BOOST_CHECK_EQUAL(game.get(-1, -1), false);
+    BOOST_CHECK_EQUAL(game.get(-1,  0), false);
+    BOOST_CHECK_EQUAL(game.get(-1,  1),  true);
+    BOOST_CHECK_EQUAL(game.get(-1,  2), false);
+    BOOST_CHECK_EQUAL(game.get( 0, -1), false);
+    BOOST_CHECK_EQUAL(game.get( 0,  0),  true);
+    BOOST_CHECK_EQUAL(game.get( 0,  1), false);
+    BOOST_CHECK_EQUAL(game.get( 0,  2),  true);
+    BOOST_CHECK_EQUAL(game.get( 1, -1),  true);
+    BOOST_CHECK_EQUAL(game.get( 1,  0),  true);
+    BOOST_CHECK_EQUAL(game.get( 1,  1), false);
+    BOOST_CHECK_EQUAL(game.get( 1,  2),  true);
+    BOOST_CHECK_EQUAL(game.get( 2, -1), false);
+    BOOST_CHECK_EQUAL(game.get( 2,  0), false);
+    BOOST_CHECK_EQUAL(game.get( 2,  1),  true);
+    BOOST_CHECK_EQUAL(game.get( 2,  2), false);
 }
 
 BOOST_AUTO_TEST_CASE(my_dynamic_bitset_crop)
