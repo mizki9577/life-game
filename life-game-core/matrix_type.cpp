@@ -76,7 +76,9 @@ void matrix_type::set(int const& x, int const& y, bool const& value)
         ry = y + static_cast<int>(y_offset);
     }
 
-    if (value == true || (rx < static_cast<int>(width()) && ry < static_cast<int>(height()))) {
+    if (value == true || (rx < static_cast<int>(width()) &&
+                          ry < static_cast<int>(height()) &&
+                          rx >= 0 && ry >= 0)) {
         _matrix.at(ry).set(rx, value);
     }
 }
