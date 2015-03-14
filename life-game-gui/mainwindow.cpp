@@ -9,11 +9,11 @@ MainWindow::MainWindow(QWidget *parent) :
     timer = new QTimer(this);
     timer->setInterval(ui->intervalSpinBox->value());
     connect(timer, SIGNAL(timeout()), this, SLOT(updateMatrixArea()));
+    game.set(-1, 0, true);
+    game.set(0, -1, true);
+    game.set(0, 0, true);
     game.set(0, 1, true);
-    game.set(1, 0, true);
-    game.set(1, 1, true);
-    game.set(1, 2, true);
-    game.set(2, 0, true);
+    game.set(1, -1, true);
 }
 
 MainWindow::~MainWindow()
@@ -67,9 +67,9 @@ void MainWindow::drawMatrixArea()
     QPainter painter;
 
     auto&& lwidth = -game.left();
-    auto&& rwidth = game.right() - 1;
+    auto&& rwidth = game.right() + 1;
     auto&& theight = -game.top();
-    auto&& bheight = game.bottom() - 1;
+    auto&& bheight = game.bottom() + 1;
 
     QPixmap pixmap1(rwidth * cell_size, bheight * cell_size);
     QPixmap pixmap2(lwidth * cell_size, bheight * cell_size);
@@ -77,8 +77,8 @@ void MainWindow::drawMatrixArea()
     QPixmap pixmap4(rwidth * cell_size, theight * cell_size);
 
     painter.begin(&pixmap1);
-    for (int y = 0; y < game.bottom() - 1; ++y) {
-        for (int x = 0; x < game.right() - 1; ++x) {
+    for (int y = 0; y <= game.bottom(); ++y) {
+        for (int x = 0; x <= game.right(); ++x) {
             if (game.get(x, y)) {
                 painter.fillRect(x * cell_size, y * cell_size, cell_size, cell_size, Qt::GlobalColor::black);
             } else {
@@ -89,7 +89,7 @@ void MainWindow::drawMatrixArea()
     painter.end();
 
     painter.begin(&pixmap2);
-    for (int y = 0; y < game.bottom() - 1; ++y) {
+    for (int y = 0; y <= game.bottom(); ++y) {
         for (int x = game.left(); x < 0; ++x) {
             if (game.get(x, y)) {
                 painter.fillRect((x - game.left()) * cell_size, y * cell_size, cell_size, cell_size, Qt::GlobalColor::black);
@@ -114,7 +114,7 @@ void MainWindow::drawMatrixArea()
 
     painter.begin(&pixmap4);
     for (int y = game.top(); y < 0; ++y) {
-        for (int x = 0; x < game.right() - 1; ++x) {
+        for (int x = 0; x <= game.right(); ++x) {
             if (game.get(x, y)) {
                 painter.fillRect(x * cell_size, (y - game.top()) * cell_size, cell_size, cell_size, Qt::GlobalColor::black);
             } else {

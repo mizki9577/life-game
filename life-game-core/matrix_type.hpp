@@ -1,31 +1,19 @@
 #ifndef MATRIX_TYPE_HPP
 #define MATRIX_TYPE_HPP
 
-#include <iostream>
+#include <cstddef>
+#include <deque>
 #include <iomanip>
+#include <iostream>
 #include <iterator>
-#include <functional>
-#include <vector>
 #include <set>
+#include <utility>
 #include "my_dynamic_bitset.hpp"
 
 class matrix_type
 {
+
     public:
-        using quadrant_type = std::vector<my_dynamic_bitset<>>;
-        using reference_type = my_dynamic_bitset<>::reference;
-
-        class coordinate_type
-        {
-            public:
-                coordinate_type() = default;
-                ~coordinate_type() = default;
-
-                quadrant_type const& quadrant;
-                std::size_t x;
-                std::size_t y;
-        };
-
         matrix_type();
         ~matrix_type() = default;
 
@@ -44,26 +32,24 @@ class matrix_type
         int left() const;
         int right() const;
 
-        quadrant_type quadrant_br;
-        quadrant_type quadrant_bl;
-        quadrant_type quadrant_ul;
-        quadrant_type quadrant_ur;
-
     private:
-        coordinate_type convert_coordinate(int const& x, int const& y) const;
+        std::deque<my_dynamic_bitset<>> _matrix;
+        std::size_t x_offset;
+        std::size_t y_offset;
+
 };
 
 template <typename CharT, typename Traits>
 std::basic_ostream<CharT, Traits>&
 operator<< (std::basic_ostream<CharT, Traits>& os, matrix_type const& matrix)
 {
-    os << std::endl << "  ";
+    os << std::endl << "   ";
     for (int x = matrix.left(); x <= matrix.right(); ++x) {
         os << std::setw(3) << x;
     }
     os << std::endl;
     for (int y = matrix.top(); y <= matrix.bottom(); ++y) {
-        os << std::setw(2) << y;
+        os << std::setw(3) << y;
         for (int x = matrix.left(); x <= matrix.right(); ++x) {
             os << std::setw(3) << matrix.get(x, y);
         }

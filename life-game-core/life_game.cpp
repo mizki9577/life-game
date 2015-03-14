@@ -3,8 +3,8 @@
 void life_game::next()
 {
     auto next_matrix = *this;
-    for (int y = top(); y < bottom(); ++y) {
-        for (int x = left(); x < right(); ++x) {
+    for (int y = top() - 1; y <= bottom() + 1; ++y) {
+        for (int x = left() - 1; x <= right() + 1; ++x) {
             auto alives = count_around(x, y);
             if (get(x, y) == true) {
                 if (alives != 2 && alives != 3) {
