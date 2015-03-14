@@ -47,6 +47,17 @@ matrix_type operator|(matrix_type const& lhs, matrix_type const& rhs)
     return result;
 }
 
+matrix_type operator~(matrix_type const& rhs)
+{
+    auto result = rhs;
+
+    for (auto && row : result._matrix) {
+        row.flip();
+    }
+
+    return result;
+}
+
 bool matrix_type::get(int const& x, int const& y) const
 {
     std::size_t rx = x + x_offset,

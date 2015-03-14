@@ -244,4 +244,23 @@ BOOST_AUTO_TEST_CASE(matrix_type_operator_or)
     BOOST_CHECK_EQUAL(lhs | rhs, expected);
 }
 
+BOOST_AUTO_TEST_CASE(matrix_type_operator_flip)
+{
+    matrix_type rhs, expected;
+
+    rhs.set(-2, -2,  true); rhs.set(-1, -2, false); rhs.set( 0, -2, false); rhs.set( 1, -2, false); rhs.set( 2, -2,  true);
+    rhs.set(-2, -1, false); rhs.set(-1, -1,  true); rhs.set( 0, -1, false); rhs.set( 1, -1,  true); rhs.set( 2, -1, false);
+    rhs.set(-2,  0, false); rhs.set(-1,  0, false); rhs.set( 0,  0,  true); rhs.set( 1,  0, false); rhs.set( 2,  0, false);
+    rhs.set(-2,  1, false); rhs.set(-1,  1,  true); rhs.set( 0,  1, false); rhs.set( 1,  1,  true); rhs.set( 2,  1, false);
+    rhs.set(-2,  2,  true); rhs.set(-1,  2, false); rhs.set( 0,  2, false); rhs.set( 1,  2, false); rhs.set( 2,  2,  true);
+
+    expected.set(-2, -2, false); expected.set(-1, -2,  true); expected.set( 0, -2,  true); expected.set( 1, -2,  true); expected.set( 2, -2, false);
+    expected.set(-2, -1,  true); expected.set(-1, -1, false); expected.set( 0, -1,  true); expected.set( 1, -1, false); expected.set( 2, -1,  true);
+    expected.set(-2,  0,  true); expected.set(-1,  0,  true); expected.set( 0,  0, false); expected.set( 1,  0,  true); expected.set( 2,  0,  true);
+    expected.set(-2,  1,  true); expected.set(-1,  1, false); expected.set( 0,  1,  true); expected.set( 1,  1, false); expected.set( 2,  1,  true);
+    expected.set(-2,  2, false); expected.set(-1,  2,  true); expected.set( 0,  2,  true); expected.set( 1,  2,  true); expected.set( 2,  2, false);
+
+    BOOST_CHECK_EQUAL(~rhs, expected);
+}
+
 // vim: set ts=4 sw=4 et:
