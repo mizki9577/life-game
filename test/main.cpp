@@ -296,10 +296,10 @@ BOOST_AUTO_TEST_CASE(matrix_type_arrange_size)
 {
     matrix_type lhs, rhs;
 
-    lhs.set(-3, -3, true);
-    lhs.set( 3,  3, true);
+    lhs.set( 0,  0, true);
+    lhs.set( 2,  2, true);
     rhs.set(-1, -1, true);
-    rhs.set( 5,  5, true);
+    rhs.set( 3,  3, true);
 
     matrix_type::arrange_size(lhs, rhs);
 }

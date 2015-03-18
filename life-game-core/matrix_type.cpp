@@ -70,38 +70,52 @@ matrix_type operator~(matrix_type const& rhs)
 
 void matrix_type::arrange_size(matrix_type& lhs, matrix_type& rhs)
 {
-    if (lhs.x_offset > rhs.x_offset) {
-        rhs.shift(lhs.x_offset - rhs.x_offset, 0);
-        rhs.x_offset = lhs.x_offset;
-    } else if (lhs.x_offset < rhs.x_offset) {
-        lhs.shift(lhs.x_offset - rhs.x_offset, 0);
-    }
-
-    if (lhs.y_offset > rhs.y_offset) {
-        rhs.shift(0, lhs.y_offset - rhs.y_offset);
+    if (lhs.top() > rhs.top()) {
+        // 左辺の上端が右辺の上端より下にある.
+        // 左辺を下シフトし, オフセットを右辺と等しくする.
+        lhs.shift(0, lhs.top() - rhs.top());
+        lhs.y_offset = rhs.y_offset;
+    } else if (lhs.top() < rhs.top()) {
+        // 右辺の上端が左辺の上端より下にある.
+        // 右辺を下シフトし, オフセットを左辺と等しくする.
+        rhs.shift(0, rhs.top() - lhs.top());
         rhs.y_offset = lhs.y_offset;
-    } else if (lhs.y_offset < rhs.y_offset) {
-        lhs.shift(0, lhs.y_offset - rhs.y_offset);
     }
 
-    if (lhs.height() > rhs.height()) {
-        std::fill_n(std::back_inserter(rhs._matrix),
-                    lhs.height() - rhs.height(),
-                    my_dynamic_bitset<>(rhs.width()));
-    } else if (lhs.height() < rhs.height()) {
-        std::fill_n(std::back_inserter(lhs._matrix),
-                    rhs.height() - lhs.height(),
-                    my_dynamic_bitset<>(lhs.width()));
+    if (lhs.left() > rhs.left()) {
+        // 左辺の左端が右辺の左端より右にある.
+        // 左辺を右シフトし, オフセットを右辺と等しくする.
+        lhs.shift(lhs.left() - rhs.left(), 0);
+        lhs.x_offset = rhs.x_offset;
+    } else if (lhs.left() < rhs.left()) {
+        // 右辺の左端が左辺の左端より右にある.
+        // 右辺を右シフトし, オフセットを左辺と等しくする.
+        rhs.shift(rhs.left() - lhs.left(), 0);
+        rhs.x_offset = lhs.x_offset;
     }
 
-    if (lhs.width() > rhs.width()) {
-        for (auto && row : rhs._matrix) {
-            row.resize(lhs.width());
-        }
-    } else if (lhs.width() < rhs.width()) {
-        for (auto && row : lhs._matrix) {
-            row.resize(rhs.width());
-        }
+    if (lhs.bottom() > rhs.bottom()) {
+        // 右辺の下端が左辺の下端より上にある.
+        // 右辺を上シフトし, オフセットを左辺と等しくする.
+        rhs.shift(0, rhs.bottom() - lhs.bottom());
+        rhs.y_offset = lhs.y_offset;
+    } else if (lhs.bottom() < rhs.bottom()) {
+        // 左辺の下端が右辺の下端より上にある.
+        // 左辺を上シフトし, オフセットを右辺と等しくする.
+        lhs.shift(0, lhs.bottom() - rhs.bottom());
+        lhs.y_offset = rhs.y_offset;
+    }
+
+    if (lhs.right() > rhs.right()) {
+        // 右辺の右端が左辺の右端より左にある.
+        // 右辺を左シフトし, オフセットを左辺と等しくする.
+        rhs.shift(rhs.right() - lhs.right(), 0);
+        rhs.x_offset = lhs.x_offset;
+    } else if (lhs.right() < rhs.right()) {
+        // 左辺の右端が右辺の右端より左にある.
+        // 左辺を左シフトし, オフセットを右辺と等しくする.
+        lhs.shift(lhs.right() - rhs.right(), 0);
+        lhs.x_offset = rhs.x_offset;
     }
 }
 
