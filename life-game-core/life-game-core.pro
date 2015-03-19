@@ -12,12 +12,11 @@ TEMPLATE = lib
 DEFINES += LIFEGAMECORE_LIBRARY
 
 SOURCES += life_game.cpp \
-    matrix_type.cpp
+        matrix_type.cpp
 
 HEADERS += life_game.hpp\
         life-game-core_global.hpp \
-    matrix_type.hpp \
-    my_dynamic_bitset.hpp
+        matrix_type.hpp
 
 unix {
     target.path = /usr/lib

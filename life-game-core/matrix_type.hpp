@@ -8,7 +8,7 @@
 #include <iostream>
 #include <iterator>
 #include <utility>
-#include "my_dynamic_bitset.hpp"
+#include <boost/dynamic_bitset.hpp>
 
 class matrix_type
 {
@@ -40,7 +40,7 @@ class matrix_type
         int right() const;
 
     private:
-        std::deque<my_dynamic_bitset<>> _matrix;
+        std::deque<boost::dynamic_bitset<>> _matrix;
         std::size_t x_offset;
         std::size_t y_offset;
 };

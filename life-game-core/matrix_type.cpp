@@ -140,12 +140,12 @@ void matrix_type::set(int const& x, int const& y, bool const& value)
         // 上に拡張する
         std::fill_n(std::front_inserter(_matrix),
                     -ry,
-                    my_dynamic_bitset<>(width()));
+                    boost::dynamic_bitset<>(width()));
         y_offset = -y;
         ry = 0;
     } else if (ry >= static_cast<int>(height())) {
         // 下に拡張する
-        _matrix.resize(ry + 1, my_dynamic_bitset<>(width()));
+        _matrix.resize(ry + 1, boost::dynamic_bitset<>(width()));
     }
 
     if (rx < 0) {
@@ -227,13 +227,13 @@ matrix_type& matrix_type::shift(int x, int y)
         y = -y;
         std::fill_n(std::back_inserter(_matrix),
                     y,
-                    my_dynamic_bitset<>(width()));
+                    boost::dynamic_bitset<>(width()));
         y_offset += y;
     } else if (y > 0) {
         // 下にシフトする
         std::fill_n(std::front_inserter(_matrix),
                     y,
-                    my_dynamic_bitset<>(width()));
+                    boost::dynamic_bitset<>(width()));
     }
 
     return *this;
