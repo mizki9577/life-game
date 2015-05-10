@@ -46,6 +46,7 @@ void life_game::next()
     Z2 = (Z1 & I8) | (Z2 & ~I8);
 
     *this = static_cast<life_game&&>(Z3 | (*this & Z2));
+    optimize();
 }
 
 // vim: set ts=4 sw=4 et:

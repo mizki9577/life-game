@@ -246,4 +246,61 @@ matrix_type matrix_type::shifted(int x, int y)
     return result;
 }
 
+void matrix_type::optimize()
+{
+    // top
+    auto const erase_end = std::prev(std::find_if(_matrix.begin(), _matrix.end(),
+                                                  [](auto const & row) { return row.any(); }));
+    auto const distance = std::distance(_matrix.begin(), erase_end);
+
+    if (_matrix.front().none()) {
+        _matrix.erase(_matrix.begin(), erase_end);
+    }
+    y_offset -= distance;
+
+    // bottom
+    if (_matrix.back().none()) {
+        _matrix.erase(std::prev(std::find_if(_matrix.rbegin(), _matrix.rend(),
+                                             [](auto const & row) { return row.any(); })
+                                ).base(),
+                      _matrix.end());
+    }
+
+    // left
+    unsigned left_min_empty = width();
+    for (auto const & row : _matrix) {
+        unsigned x;
+        for (x = 0; x < width(); ++x) {
+            if (row.test(x)) {
+                break;
+            }
+        }
+        if (x < left_min_empty) {
+            left_min_empty = x;
+        }
+    }
+    --left_min_empty;
+    for (auto && row : _matrix) {
+        row >>= left_min_empty;
+    }
+    x_offset -= left_min_empty;
+
+    // right
+    unsigned right_max_alive = 0;
+    for (auto const & row : _matrix) {
+        unsigned x;
+        for (x = width() - 1; x > 0; --x) {
+            if (row.test(x)) {
+                break;
+            }
+        }
+        if (x > right_max_alive) {
+            right_max_alive = x;
+        }
+    }
+    for (auto && row : _matrix) {
+        row.resize(right_max_alive + 2);
+    }
+}
+
 // vim: set ts=4 sw=4 et:

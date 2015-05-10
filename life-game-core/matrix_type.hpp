@@ -28,6 +28,7 @@ class matrix_type
         bool get(int const& x, int const& y) const;
         void set(int const& x, int const& y, bool const& value);
         void clear();
+        void optimize();
 
         matrix_type& shift(int x, int y);
         matrix_type shifted(int x, int y);
